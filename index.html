@@ -4,290 +4,211 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Adri ❤️</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 body{
-margin:0;
-font-family:'Poppins',sans-serif;
-background:linear-gradient(-45deg,#3a0c4a,#5e145e,#7a1f7a,#a83279);
-background-size:300% 300%;
-animation:gradientMove 18s ease infinite;
-color:white;
-text-align:center;
-overflow:hidden;
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    overflow:hidden;
+    text-align:center;
+    background: linear-gradient(135deg,#ffdde1,#ee9ca7);
+    animation: fondo 8s infinite alternate;
 }
 
-@keyframes gradientMove{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
+@keyframes fondo{
+    0%{background: linear-gradient(135deg,#ffdde1,#ee9ca7);}
+    100%{background: linear-gradient(135deg,#fbc2eb,#a6c1ee);}
 }
 
-/* PLAYER */
-.player{
-display:none;
-position:fixed;
-top:15px;
-left:50%;
-transform:translateX(-50%);
-background:rgba(0,0,0,0.45);
-backdrop-filter:blur(10px);
-padding:15px 25px;
-border-radius:25px;
-z-index:50;
-width:320px;
+h1{
+    margin-top:40px;
+    color:white;
 }
 
-.song-title{
-font-size:14px;
-font-weight:600;
+#heart{
+    font-size:100px;
+    cursor:pointer;
+    animation: latido 1s infinite;
 }
 
-.controls{
-margin-top:8px;
-display:flex;
-align-items:center;
-gap:10px;
+@keyframes latido{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.2);}
+    100%{transform:scale(1);}
 }
 
-.progress{
-flex:1;
-height:6px;
-background:#555;
-border-radius:5px;
-cursor:pointer;
-}
-
-.progress-bar{
-height:100%;
-width:0%;
-background:#ff9ecf;
-border-radius:5px;
+#player{
+    display:none;
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    width:300px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
 button{
-background:#ff9ecf;
-border:none;
-border-radius:8px;
-padding:5px 10px;
-cursor:pointer;
-font-weight:bold;
+    padding:8px 15px;
+    border:none;
+    background:#ff6b81;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
 }
 
-/* CONTENIDO */
-.container{
-margin-top:180px;
+#progress{
+    width:100%;
 }
 
-.heart{
-width:150px;
-cursor:pointer;
-animation:beat 1.2s infinite;
-filter:drop-shadow(0 0 20px red);
+#contador{
+    color:white;
+    font-size:20px;
+    margin-top:20px;
 }
 
-@keyframes beat{
-0%,100%{transform:scale(1);}
-50%{transform:scale(1.15);}
+#fotoBtn{
+    margin-top:20px;
 }
 
-#text{
-margin-top:30px;
-font-size:20px;
-min-height:80px;
-padding:0 20px;
+#fotoContainer{
+    display:none;
+    position:fixed;
+    top:-400px;
+    left:50%;
+    transform:translateX(-50%);
+    transition: top 1.5s ease;
 }
 
-.reveal-btn{
-display:none;
-margin-top:30px;
-padding:15px 25px;
-border:none;
-border-radius:30px;
-background:linear-gradient(45deg,#ff4d6d,#ff99ac);
-color:white;
-font-size:16px;
-cursor:pointer;
-box-shadow:0 0 15px pink;
-}
-
-/* POLAROID */
 .polaroid{
-display:none;
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%) rotate(-6deg);
-background:#fdf6e3;
-padding:15px 15px 45px 15px;
-border-radius:12px;
-box-shadow:0 25px 60px rgba(0,0,0,0.6);
-animation:drop 1s ease forwards;
-z-index:100;
+    background:white;
+    padding:10px;
+    border-radius:10px;
+    box-shadow:0 15px 25px rgba(0,0,0,0.3);
 }
 
 .polaroid img{
-width:240px;
-border-radius:8px;
-display:block;
-filter:sepia(20%) contrast(110%);
+    width:250px;
+    border-radius:10px;
 }
 
-@keyframes drop{
-from{transform:translate(-50%,-200%) rotate(-15deg);opacity:0;}
-to{transform:translate(-50%,-50%) rotate(-6deg);opacity:1;}
+.polaroid p{
+    font-style:italic;
 }
 
-/* PETALOS */
-.petal{
-position:fixed;
-top:-20px;
-width:18px;
-height:18px;
-background:radial-gradient(circle at 30% 30%,#ffb6c1,#ff69b4);
-border-radius:60% 40% 60% 40%;
-transform:rotate(45deg);
-animation:fall linear forwards;
-z-index:90;
-opacity:0.9;
+.petalo{
+    position:fixed;
+    width:15px;
+    height:20px;
+    background:pink;
+    border-radius: 50% 50% 50% 0;
+    transform:rotate(45deg);
+    animation: caer 6s linear infinite;
 }
 
-@keyframes fall{
-to{
-transform:translateY(110vh) rotate(360deg);
-}
-}
-
-/* CONTADOR */
-.counter{
-position:fixed;
-bottom:20px;
-width:100%;
-font-size:14px;
+@keyframes caer{
+    0%{top:-10%;opacity:1;}
+    100%{top:110%;opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- PLAYER (oculto al inicio) -->
-<div class="player" id="player">
-<div class="song-title">Tatu — María Becerra 🎵</div>
-<div class="controls">
-<button onclick="togglePlay()" id="playBtn">▶</button>
-<div class="progress" onclick="seek(event)">
-<div class="progress-bar" id="progressBar"></div>
-</div>
-<span id="time">0:00</span>
-</div>
-</div>
+<h1>Adri ❤️</h1>
 
-<div class="container">
-<svg class="heart" onclick="startExperience()" viewBox="0 0 32 29.6">
-<path fill="red" d="M23.6,0c-3.4,0-6.4,2.2-7.6,5.3C14.8,2.2,11.8,0,8.4,0
-C3.8,0,0,3.8,0,8.4c0,9.3,16,21.2,16,21.2s16-11.9,16-21.2C32,3.8,28.2,0,23.6,0z"/>
-</svg>
+<div id="heart">❤️</div>
 
-<div id="text"></div>
-<button class="reveal-btn" onclick="showPhoto()">Toca para ver nuestro futuro ❤️</button>
+<div id="contador"></div>
+
+<div id="player">
+    <div><strong>Tu Canción Especial</strong></div>
+    <div>Artista</div>
+    <audio id="audio" src="music.mp3"></audio>
+    <br><br>
+    <button onclick="togglePlay()">Play / Pause</button>
+    <br><br>
+    <input type="range" id="progress" value="0">
+    <div><span id="current">0:00</span> / <span id="duration">0:00</span></div>
 </div>
 
-<div class="polaroid" id="photo">
-<img src="foto.jpg">
+<button id="fotoBtn" onclick="mostrarFoto()">Toca para ver nuestro futuro 💕</button>
+
+<div id="fotoContainer">
+    <div class="polaroid">
+        <img src="foto.jpg">
+        <p>"Pronto estaremos juntos, mi vida"</p>
+    </div>
 </div>
-
-<div class="counter" id="counter"></div>
-
-<audio id="music">
-<source src="music.mp3" type="audio/mpeg">
-</audio>
 
 <script>
-const phrases=[
-"Te amo de aquí a la luna en pasitos de tortuga 🐢",
-"Eres el motor de mi vida 💕",
-"Una vida a tu lado es la que anhelo 🏡",
-"Eres el regalito que Dios me envió 💝",
-"Siempre despierto y eres lo primero en lo que pienso 🥰☀️",
-"Soy completamente tuyo 💕"
-];
+const heart = document.getElementById("heart");
+const player = document.getElementById("player");
+const audio = document.getElementById("audio");
+const progress = document.getElementById("progress");
+const current = document.getElementById("current");
+const duration = document.getElementById("duration");
 
-let i=0,j=0;
-const textElement=document.getElementById("text");
-const revealBtn=document.querySelector(".reveal-btn");
-const music=document.getElementById("music");
-const progressBar=document.getElementById("progressBar");
-const player=document.getElementById("player");
-const playBtn=document.getElementById("playBtn");
-
-function typeEffect(){
-if(i<phrases.length){
-let phrase=phrases[i];
-if(j<phrase.length){
-textElement.innerHTML+=phrase[j];
-j++;
-setTimeout(typeEffect,50);
-}else{
-setTimeout(()=>{
-textElement.innerHTML="";
-j=0;i++;
-typeEffect();
-},2000);
-}
-}else{
-document.querySelector(".heart").style.display="none";
-revealBtn.style.display="inline-block";
-}
-}
-
-function startExperience(){
-player.style.display="block";
-music.play();
-if(i===0) typeEffect();
-}
-
-function togglePlay(){
-if(music.paused){
-music.play();
-playBtn.innerText="⏸";
-}else{
-music.pause();
-playBtn.innerText="▶";
-}
-}
-
-music.addEventListener("timeupdate",()=>{
-let percent=(music.currentTime/music.duration)*100;
-progressBar.style.width=percent+"%";
-let m=Math.floor(music.currentTime/60);
-let s=Math.floor(music.currentTime%60);
-if(s<10)s="0"+s;
-document.getElementById("time").innerText=m+":"+s;
+heart.addEventListener("click",()=>{
+    player.style.display="block";
+    audio.play();
 });
 
-function seek(e){
-const width=e.currentTarget.clientWidth;
-const clickX=e.offsetX;
-music.currentTime=(clickX/width)*music.duration;
+function togglePlay(){
+    if(audio.paused){
+        audio.play();
+    }else{
+        audio.pause();
+    }
 }
 
-/* CONTADOR EXACTO */
-document.getElementById("counter").innerHTML=
-"❤️ 3 años de puro amor ❤️";
+audio.addEventListener("loadedmetadata",()=>{
+    duration.textContent = formatTime(audio.duration);
+    progress.max = audio.duration;
+});
 
-/* FOTO + PETALOS */
-function showPhoto(){
-document.getElementById("photo").style.display="block";
-for(let k=0;k<35;k++){
-let petal=document.createElement("div");
-petal.classList.add("petal");
-petal.style.left=Math.random()*100+"vw";
-petal.style.animationDuration=(4+Math.random()*3)+"s";
-document.body.appendChild(petal);
-setTimeout(()=>petal.remove(),7000);
+audio.addEventListener("timeupdate",()=>{
+    progress.value = audio.currentTime;
+    current.textContent = formatTime(audio.currentTime);
+});
+
+progress.addEventListener("input",()=>{
+    audio.currentTime = progress.value;
+});
+
+function formatTime(time){
+    let min = Math.floor(time/60);
+    let sec = Math.floor(time%60);
+    if(sec<10) sec="0"+sec;
+    return min+":"+sec;
 }
+
+function mostrarFoto(){
+    const cont = document.getElementById("fotoContainer");
+    cont.style.display="block";
+    setTimeout(()=>{
+        cont.style.top="150px";
+    },100);
 }
+
+function crearPetalo(){
+    const petalo=document.createElement("div");
+    petalo.classList.add("petalo");
+    petalo.style.left=Math.random()*100+"vw";
+    petalo.style.animationDuration=(5+Math.random()*5)+"s";
+    document.body.appendChild(petalo);
+    setTimeout(()=>petalo.remove(),10000);
+}
+
+setInterval(crearPetalo,500);
+
+// Contador exacto
+const inicio = new Date("2023-02-11T00:00:00");
+const hoy = new Date("2026-02-11T00:00:00");
+let años = hoy.getFullYear() - inicio.getFullYear();
+document.getElementById("contador").innerHTML="❤️ "+años+" años exactos ❤️";
 </script>
 
 </body>
