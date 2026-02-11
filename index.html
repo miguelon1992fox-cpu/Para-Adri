@@ -1,5 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Adri ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  overflow: hidden;
+  color: white;
+  background: linear-gradient(135deg,#2b1055,#7597de);
+  background-size: 400% 400%;
+  animation: fondo 12s ease infinite;
+}
+
+@keyframes fondo {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+#heart {
+  font-size: 100px;
+  cursor: pointer;
+  margin-top: 120px;
+  animation: latido 1s infinite;
+  position: relative;
+  z-index: 5;
+}
+
+@keyframes latido {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+#contador {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  font-size: 18px;
+}
+
+/* REPRODUCTOR */
+#player {
+  display: none;
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  width: 260px;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(10px);
+  padding: 15px;
+  border-radius: 18px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  z-index: 1000;
+  transform: translateY(-20px);
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+#player button {
+  background: #ff4d6d;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#progress {
+  width: 100%;
+}
+
+/* FOTO */
+#fotoBtn {
+  display: none;
+  margin-top: 20px;
+  background: #ff8fcf;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+}
+
+#fotoContainer {
+  display: none;
+  position: fixed;
+  top: -400px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: top 1.5s ease;
+  z-index: 20;
+}
+
+.polaroid {
+  background: #fdf6e3;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
+
+.polaroid img {
+  width: 250px;
+  border-radius: 10px;
+}
+
+/* PETALOS */
+.petalo {
+  position: fixed;
+  width: 14px;
+  height: 20px;
+  background: radial-gradient(circle at 30% 30%, #ffb6c1, #ff4d6d);
+  border-radius: 60% 40% 60% 40%;
+  transform: rotate(45deg);
+  animation: caer linear infinite;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+@keyframes caer {
+  0% { transform: translateY(-10vh) rotate(0deg); }
+  100% { transform: translateY(110vh) rotate(360deg); }
+}
+</style>
+</head>
+
+<body>
+
+<div id="heart">❤️</div>
+
+<div id="player">
+  <div><strong>Tatu — María Becerra 🎵</strong></div>
+  <br>
+  <audio id="audio" src="music.mp3"></audio>
+  <button onclick="togglePlay()">Play / Pause</button>
+  <br><br>
+  <input type="range" id="progress" value="0">
+  <div><span id="current">0:00</span> / <span id="duration">0:00</span></div>
+</div>
+
+<button id="fotoBtn" onclick="mostrarFoto()">Ver nuestro futuro 💕</button>
+
+<div id="fotoContainer">
+  <div class="polaroid">
+    <img src="foto.jpg" alt="Nuestra foto">
+    <p>Pronto estaremos juntos, mi vida ❤️</p>
+  </div>
+</div>
+
+<div id="contador">❤️ 3 años exactos ❤️</div>
+
+<!-- SCRIPT SIEMPRE AL FINAL -->
 <script>
-document.addEventListener("DOMContentLoaded", function(){
 
 const heart = document.getElementById("heart");
 const player = document.getElementById("player");
@@ -24,7 +180,7 @@ heart.addEventListener("click", function(){
 });
 
 /* Play/Pause */
-window.togglePlay = function(){
+function togglePlay(){
   if(audio.paused){
     audio.play();
   } else {
@@ -60,7 +216,7 @@ audio.addEventListener("ended", function(){
 });
 
 /* Foto animada */
-window.mostrarFoto = function(){
+function mostrarFoto(){
   fotoContainer.style.display="block";
   setTimeout(()=>fotoContainer.style.top="150px",100);
 }
@@ -72,10 +228,3 @@ function crearPetalo(){
   p.style.left = Math.random()*100+"vw";
   p.style.animationDuration = (5+Math.random()*5)+"s";
   document.body.appendChild(p);
-  setTimeout(()=>p.remove(),10000);
-}
-
-setInterval(crearPetalo,800);
-
-});
-</script>
