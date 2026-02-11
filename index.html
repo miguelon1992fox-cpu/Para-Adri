@@ -121,9 +121,11 @@ cursor:pointer;
 /* Polaroid */
 .polaroid{
 position:absolute;
-top:-400px;
+top:50%;
 left:50%;
-transform:translateX(-50%) rotate(-8deg);
+transform:translate(-50%, -200%) rotate(-8deg);
+opacity:0;
+pointer-events:none;
 background:white;
 padding:10px;
 box-shadow:0 20px 40px rgba(0,0,0,0.5);
@@ -146,9 +148,9 @@ font-weight:bold;
 }
 
 .show-polaroid{
-top:50%;
-left:50%;
 transform:translate(-50%, -50%) rotate(-8deg);
+opacity:1;
+pointer-events:auto;
 animation:swing 3s ease-in-out infinite;
 }
 
