@@ -20,8 +20,10 @@ body{
     justify-content:center;
     color:white;
     text-align:center;
+    position:relative;
 }
 
+/* Fondo estrellas */
 .stars{
     position:absolute;
     width:100%;
@@ -29,6 +31,7 @@ body{
     background:url('https://www.transparenttextures.com/patterns/stardust.png');
     animation:moveStars 60s linear infinite;
     opacity:0.4;
+    z-index:-1;
 }
 
 @keyframes moveStars{
@@ -36,6 +39,7 @@ body{
     to{background-position:10000px 5000px;}
 }
 
+/* Corazón */
 .heart{
     width:120px;
     height:120px;
@@ -44,7 +48,8 @@ body{
     transform:rotate(-45deg);
     animation:beat 1.2s infinite;
     cursor:pointer;
-    box-shadow:0 0 25px red;
+    box-shadow:0 0 30px red;
+    z-index:2;
 }
 
 .heart:before,
@@ -70,6 +75,7 @@ body{
     font-size:20px;
     max-width:90%;
     min-height:80px;
+    z-index:2;
 }
 
 .date{
@@ -77,19 +83,21 @@ body{
     bottom:20px;
     font-size:14px;
     opacity:0.7;
+    z-index:2;
 }
 
 .final{
     display:none;
     flex-direction:column;
     align-items:center;
+    z-index:2;
 }
 
 .final img{
     width:220px;
     border-radius:20px;
     margin-top:20px;
-    box-shadow:0 0 20px pink;
+    box-shadow:0 0 25px pink;
 }
 
 .big{
@@ -115,7 +123,7 @@ body{
     <img src="foto.jpg" alt="Nuestra foto">
 </div>
 
-<audio id="music" autoplay loop>
+<audio id="music" loop>
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
@@ -133,15 +141,13 @@ const phrases = [
 
 let i = 0;
 let j = 0;
-let currentPhrase = "";
-let isDeleting = false;
 const textElement = document.getElementById("text");
 const finalSection = document.getElementById("final");
 const music = document.getElementById("music");
 
 function typeEffect(){
     if(i < phrases.length){
-        currentPhrase = phrases[i];
+        let currentPhrase = phrases[i];
         if(j < currentPhrase.length){
             textElement.innerHTML += currentPhrase.charAt(j);
             j++;
@@ -167,10 +173,6 @@ function startExperience(){
         typeEffect();
     }
 }
-
-window.onload = () => {
-    music.play().catch(()=>{});
-};
 </script>
 
 </body>
