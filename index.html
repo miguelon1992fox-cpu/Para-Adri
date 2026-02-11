@@ -13,7 +13,6 @@ font-family:'Poppins', sans-serif;
 background:linear-gradient(135deg,#1a001a,#330033,#660066);
 min-height:100vh;
 overflow-x:hidden;
-overflow-y:auto;
 display:flex;
 flex-direction:column;
 align-items:center;
@@ -22,7 +21,7 @@ color:white;
 text-align:center;
 }
 
-/* Fondo */
+/* Fondo estrellas */
 .stars{
 position:absolute;
 width:100%;
@@ -38,20 +37,21 @@ from{background-position:0 0;}
 to{background-position:10000px 5000px;}
 }
 
-/* Player arriba */
+/* PLAYER */
 .player{
 position:fixed;
 top:15px;
 background:rgba(0,0,0,0.4);
 backdrop-filter:blur(12px);
-padding:12px 20px;
+padding:15px 25px;
 border-radius:25px;
-box-shadow:0 0 20px pink;
+box-shadow:0 0 30px pink;
 font-size:14px;
+width:280px;
 }
 
 .progress{
-width:220px;
+width:100%;
 height:6px;
 background:#555;
 border-radius:5px;
@@ -62,11 +62,19 @@ cursor:pointer;
 .progress-bar{
 height:100%;
 width:0%;
-background:pink;
+background:linear-gradient(90deg,pink,#ff66cc);
 border-radius:5px;
 }
 
-button{
+.time{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+opacity:0.8;
+}
+
+.player button{
+margin-top:8px;
 background:pink;
 border:none;
 padding:6px 14px;
@@ -75,13 +83,7 @@ cursor:pointer;
 font-weight:bold;
 }
 
-/* Contador */
-.counter{
-font-size:12px;
-opacity:0.8;
-}
-
-/* Corazón */
+/* Corazón inicial */
 .heart-container{
 cursor:pointer;
 animation:beat 1.2s infinite;
@@ -98,7 +100,7 @@ filter:drop-shadow(0 0 20px red);
 50%{transform:scale(1.15);}
 }
 
-/* Texto */
+/* Texto frases */
 #text{
 margin-top:30px;
 font-size:20px;
@@ -118,24 +120,23 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* Polaroid */
+/* POLAROID */
 .polaroid{
 position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%, -200%) rotate(-8deg);
 opacity:0;
-pointer-events:none;
 background:white;
 padding:10px;
 box-shadow:0 20px 40px rgba(0,0,0,0.5);
 transition:all 1.5s ease;
+z-index:5;
 }
 
-/* Imagen adaptable */
 .polaroid img{
-width:240px;
-max-width:80vw;
+width:200px;
+max-width:70vw;
 height:auto;
 display:block;
 }
@@ -148,15 +149,51 @@ font-weight:bold;
 }
 
 .show-polaroid{
-transform:translate(-50%, -50%) rotate(-8deg);
+transform:translate(-50%, -40%) rotate(-8deg);
 opacity:1;
-pointer-events:auto;
 animation:swing 3s ease-in-out infinite;
 }
 
 @keyframes swing{
-0%,100%{transform:translate(-50%, -50%) rotate(-8deg);}
-50%{transform:translate(-50%, -50%) rotate(4deg);}
+0%,100%{transform:translate(-50%, -40%) rotate(-8deg);}
+50%{transform:translate(-50%, -40%) rotate(4deg);}
+}
+
+/* CONTADOR ABAJO */
+.bottom-counter{
+position:absolute;
+bottom:40px;
+font-size:18px;
+opacity:0;
+transition:opacity 2s ease;
+}
+
+.show-counter{
+opacity:1;
+}
+
+/* CORAZONES FLOTANDO */
+.floating-heart{
+position:absolute;
+color:pink;
+font-size:20px;
+animation:floatUp 4s linear forwards;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-300px);opacity:0;}
+}
+
+/* Brillo mágico */
+.magic{
+animation:flash 1.5s ease;
+}
+
+@keyframes flash{
+0%{box-shadow:0 0 0px white;}
+50%{box-shadow:0 0 50px white;}
+100%{box-shadow:0 20px 40px rgba(0,0,0,0.5);}
 }
 </style>
 </head>
@@ -168,11 +205,14 @@ animation:swing 3s ease-in-out infinite;
 <!-- PLAYER -->
 <div class="player">
 <div>Tatu — María Becerra 🎵</div>
-<div class="counter" id="counter"></div>
 <div class="progress" onclick="seek(event)">
 <div class="progress-bar" id="progressBar"></div>
 </div>
-<button onclick="togglePlay()">Play / Pause</button>
+<div class="time">
+<span id="currentTime">0:00</span>
+<span id="duration">0:00</span>
+</div>
+<button onclick="togglePlay()">Play</button>
 </div>
 
 <div class="heart-container" onclick="startExperience()">
@@ -192,6 +232,8 @@ Toca para ver nuestro futuro ❤️
 <img src="foto.jpg">
 <span>Pronto estaremos juntos, mi vida ❤️</span>
 </div>
+
+<div class="bottom-counter" id="counter"></div>
 
 <audio id="music">
 <source src="music.mp3" type="audio/mpeg">
@@ -243,14 +285,32 @@ music.play();
 if(i===0){typeEffect();}
 }
 
-/* Player */
+/* PLAYER MEJORADO */
 function togglePlay(){
-if(music.paused){music.play();}else{music.pause();}
+const btn=document.querySelector(".player button");
+if(music.paused){
+music.play();
+btn.textContent="Pause";
+}else{
+music.pause();
+btn.textContent="Play";
 }
+}
+
+function formatTime(seconds){
+const minutes=Math.floor(seconds/60);
+const secs=Math.floor(seconds%60);
+return minutes+":"+(secs<10?"0"+secs:secs);
+}
+
+music.addEventListener("loadedmetadata",()=>{
+document.getElementById("duration").textContent=formatTime(music.duration);
+});
 
 music.addEventListener("timeupdate",()=>{
 let percent=(music.currentTime/music.duration)*100;
 progressBar.style.width=percent+"%";
+document.getElementById("currentTime").textContent=formatTime(music.currentTime);
 });
 
 function seek(e){
@@ -259,28 +319,42 @@ const clickX=e.offsetX;
 music.currentTime=(clickX/width)*music.duration;
 }
 
-/* Polaroid */
+/* POLAROID + EFECTOS */
 function showPolaroid(){
 revealBtn.style.display="none";
-polaroid.classList.add("show-polaroid");
+polaroid.classList.add("show-polaroid","magic");
+document.getElementById("counter").classList.add("show-counter");
+startHearts();
 }
 
-/* Contador */
+/* Corazones flotando */
+function startHearts(){
+for(let k=0;k<20;k++){
+setTimeout(()=>{
+const heart=document.createElement("div");
+heart.className="floating-heart";
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+heart.style.bottom="0px";
+heart.style.fontSize=(20+Math.random()*20)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),4000);
+},k*200);
+}
+}
+
+/* CONTADOR */
 function updateCounter(){
 const start=new Date("2023-02-11T00:00:00");
 const now=new Date();
 const diff=now-start;
-
 const days=Math.floor(diff/(1000*60*60*24));
 const years=Math.floor(days/365);
-const months=Math.floor((days%365)/30);
-const remainingDays=days%30;
 
 document.getElementById("counter").innerHTML=
-years+" años "+months+" meses "+remainingDays+" días juntos ❤️";
+"Hoy celebramos "+years+" años juntos 💍❤️";
 }
 
-setInterval(updateCounter,1000);
 updateCounter();
 </script>
 
