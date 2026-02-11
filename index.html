@@ -27,7 +27,7 @@ padding:20px;
 border-radius:20px;
 box-shadow:0 0 30px #ff66c4;
 z-index:10;
-width:300px;
+width:320px;
 }
 
 .progress{
@@ -37,6 +37,7 @@ background:#777;
 border-radius:10px;
 margin:10px 0;
 overflow:hidden;
+cursor:pointer;
 }
 
 .progress-bar{
@@ -51,6 +52,7 @@ justify-content:space-between;
 font-size:12px;
 }
 
+/* CORAZÓN */
 .heart{
 font-size:120px;
 cursor:pointer;
@@ -64,21 +66,23 @@ animation:latido 1s infinite;
 100%{transform:scale(1);}
 }
 
+/* BURBUJAS */
 .bubble{
 position:absolute;
 background:rgba(255,255,255,0.15);
 padding:15px 25px;
 border-radius:30px;
 backdrop-filter:blur(10px);
-animation:flotar 4s forwards;
 font-size:18px;
+animation:flotar 3s forwards;
 }
 
 @keyframes flotar{
 0%{opacity:0;transform:translateY(20px);}
-100%{opacity:1;transform:translateY(-40px);}
+100%{opacity:1;transform:translateY(-60px);}
 }
 
+/* BOTÓN FUTURO */
 .futureBtn{
 display:none;
 margin-top:40px;
@@ -91,15 +95,17 @@ background:#ff4da6;
 color:white;
 }
 
+/* FOTO */
 .polaroid{
 position:absolute;
-top:150px;
+top:160px;
 left:50%;
 transform:translateX(-50%) rotate(-5deg);
 background:#e0cbb4;
 padding:20px 20px 40px 20px;
 box-shadow:0 15px 30px rgba(0,0,0,0.6);
 display:none;
+z-index:5;
 }
 
 .polaroid img{
@@ -114,15 +120,17 @@ color:#5a4033;
 font-weight:bold;
 }
 
+/* PROPUESTA */
 .propuesta{
 display:none;
 position:absolute;
-top:50%;
+top:70%;
 left:50%;
-transform:translate(-50%,-50%);
+transform:translateX(-50%);
 background:rgba(0,0,0,0.6);
-padding:40px;
+padding:30px;
 border-radius:20px;
+z-index:6;
 }
 </style>
 </head>
@@ -131,15 +139,18 @@ border-radius:20px;
 
 <div class="player">
 <h3>Tatu — María Becerra 🎵</h3>
-<div class="progress">
+
+<div class="progress" onclick="seek(event)">
 <div class="progress-bar" id="progressBar"></div>
 </div>
+
 <div class="time">
 <span id="current">0:00</span>
 <span id="duration">0:00</span>
 </div>
-<audio id="music" src="music.mp3"></audio>
+
 <button onclick="toggleMusic()">Play / Pause</button>
+<audio id="music" src="music.mp3"></audio>
 </div>
 
 <div class="heart" id="heart">❤️</div>
@@ -154,8 +165,9 @@ border-radius:20px;
 </div>
 
 <div class="propuesta" id="propuesta">
-<h1>¿Quieres ser el amor de todas mis vidas? 💍❤️</h1>
-<button onclick="alert('Te amo infinito ❤️')">Sí</button>
+<h2>¿Quieres ser el amor de todas mis vidas? 💍❤️</h2>
+<button onclick="alert('Sabía que dirías que sí ❤️')">Sí</button>
+<button onclick="alert('¿Segura? 😏')">No</button>
 </div>
 
 <script>
@@ -163,12 +175,14 @@ border-radius:20px;
 const frases=[
 "Eres mi lugar favorito ❤️",
 "Contigo quiero todo 💕",
-"Eres mi sueño hecho realidad ✨",
 "Gracias por estos 3 años 💖",
+"Eres mi sueño hecho realidad ✨",
 "Eres mi persona especial 💞"
 ];
 
 let index=0;
+let musicStarted=false;
+
 const heart=document.getElementById("heart");
 const futureBtn=document.getElementById("futureBtn");
 const photo=document.getElementById("photo");
@@ -178,8 +192,14 @@ const progressBar=document.getElementById("progressBar");
 const current=document.getElementById("current");
 const duration=document.getElementById("duration");
 
-/* CORAZÓN */
+/* CLICK CORAZÓN */
 heart.addEventListener("click",()=>{
+
+/* Inicia música en el primer click */
+if(!musicStarted){
+music.play();
+musicStarted=true;
+}
 
 if(index<frases.length){
 crearBurbuja(frases[index]);
@@ -191,18 +211,18 @@ futureBtn.style.display="inline-block";
 
 });
 
-/* BURBUJAS */
+/* BURBUJA */
 function crearBurbuja(texto){
 const bubble=document.createElement("div");
 bubble.className="bubble";
 bubble.innerText=texto;
 
 let rect=heart.getBoundingClientRect();
-bubble.style.left=(rect.left+Math.random()*200-100)+"px";
-bubble.style.top=(rect.top-50)+"px";
+bubble.style.left=(rect.left + Math.random()*200 -100)+"px";
+bubble.style.top=(rect.top-20)+"px";
 
 document.body.appendChild(bubble);
-setTimeout(()=>bubble.remove(),4000);
+setTimeout(()=>bubble.remove(),3000);
 }
 
 /* FOTO */
@@ -212,7 +232,7 @@ photo.style.display="block";
 
 setTimeout(()=>{
 propuesta.style.display="block";
-},4000);
+},3000);
 }
 
 /* MUSIC */
@@ -233,6 +253,12 @@ let percent=(music.currentTime/music.duration)*100;
 progressBar.style.width=percent+"%";
 current.textContent=formatTime(music.currentTime);
 });
+
+function seek(e){
+const width=e.currentTarget.clientWidth;
+const clickX=e.offsetX;
+music.currentTime=(clickX/width)*music.duration;
+}
 
 function formatTime(time){
 let min=Math.floor(time/60);
