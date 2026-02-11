@@ -4,119 +4,150 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Adri ❤️</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
 body{
-    margin:0;
-    font-family:'Poppins', sans-serif;
-    background:linear-gradient(135deg,#1a001a,#330033,#660066);
-    height:100vh;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    text-align:center;
+margin:0;
+font-family:'Poppins', sans-serif;
+background:linear-gradient(135deg,#1a001a,#330033,#660066);
+height:100vh;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+color:white;
+text-align:center;
 }
 
 /* Fondo */
 .stars{
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:url('https://www.transparenttextures.com/patterns/stardust.png');
-    animation:moveStars 60s linear infinite;
-    opacity:0.4;
-    z-index:-1;
+position:absolute;
+width:100%;
+height:100%;
+background:url('https://www.transparenttextures.com/patterns/stardust.png');
+animation:moveStars 60s linear infinite;
+opacity:0.4;
+z-index:-1;
 }
 
 @keyframes moveStars{
-    from{background-position:0 0;}
-    to{background-position:10000px 5000px;}
+from{background-position:0 0;}
+to{background-position:10000px 5000px;}
+}
+
+/* Player arriba */
+.player{
+position:fixed;
+top:15px;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(12px);
+padding:12px 20px;
+border-radius:25px;
+box-shadow:0 0 20px pink;
+font-size:14px;
+}
+
+.progress{
+width:220px;
+height:6px;
+background:#555;
+border-radius:5px;
+margin:6px 0;
+cursor:pointer;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:pink;
+border-radius:5px;
+}
+
+button{
+background:pink;
+border:none;
+padding:6px 14px;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+}
+
+/* Contador */
+.counter{
+font-size:12px;
+opacity:0.8;
 }
 
 /* Corazón */
 .heart-container{
-    cursor:pointer;
-    animation:beat 1.2s infinite;
+cursor:pointer;
+animation:beat 1.2s infinite;
+margin-top:40px;
 }
 
 .heart-svg{
-    width:150px;
-    filter: drop-shadow(0 0 25px red);
+width:140px;
+filter:drop-shadow(0 0 20px red);
 }
 
 @keyframes beat{
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.15);}
+0%,100%{transform:scale(1);}
+50%{transform:scale(1.15);}
 }
 
 /* Texto */
 #text{
-    margin-top:40px;
-    font-size:20px;
-    max-width:90%;
-    min-height:80px;
+margin-top:30px;
+font-size:20px;
+max-width:90%;
+min-height:80px;
 }
 
-/* Player */
-.player{
-    position:fixed;
-    bottom:20px;
-    background:rgba(0,0,0,0.5);
-    backdrop-filter:blur(10px);
-    padding:15px;
-    border-radius:20px;
-    width:260px;
-    box-shadow:0 0 20px pink;
+/* Botón final */
+.reveal-btn{
+display:none;
+margin-top:30px;
+background:white;
+color:#660066;
+padding:12px 25px;
+border-radius:30px;
+font-weight:bold;
+cursor:pointer;
 }
 
-.progress{
-    width:100%;
-    height:6px;
-    background:#555;
-    border-radius:5px;
-    margin:10px 0;
-    cursor:pointer;
+/* Polaroid */
+.polaroid{
+position:absolute;
+top:-400px;
+background:white;
+padding:10px;
+box-shadow:0 20px 40px rgba(0,0,0,0.5);
+transform:rotate(-8deg);
+transition:all 1.5s ease;
 }
 
-.progress-bar{
-    height:100%;
-    width:0%;
-    background:pink;
-    border-radius:5px;
+.polaroid img{
+width:240px;
+display:block;
 }
 
-button{
-    background:pink;
-    border:none;
-    padding:8px 15px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:bold;
+.polaroid span{
+display:block;
+margin-top:8px;
+color:#333;
+font-weight:bold;
 }
 
-/* Final */
-.final{
-    display:none;
-    flex-direction:column;
-    align-items:center;
+.show-polaroid{
+top:25%;
+animation:swing 3s ease-in-out infinite;
 }
 
-.final img{
-    width:220px;
-    border-radius:20px;
-    margin-top:20px;
-    box-shadow:0 0 25px pink;
-}
-
-.big{
-    font-size:28px;
-    margin-top:30px;
-    font-weight:700;
+@keyframes swing{
+0%,100%{transform:rotate(-8deg);}
+50%{transform:rotate(4deg);}
 }
 </style>
 </head>
@@ -124,6 +155,16 @@ button{
 <body>
 
 <div class="stars"></div>
+
+<!-- PLAYER -->
+<div class="player">
+<div>Tatu — María Becerra 🎵</div>
+<div class="counter" id="counter"></div>
+<div class="progress" onclick="seek(event)">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+<button onclick="togglePlay()">Play / Pause</button>
+</div>
 
 <div class="heart-container" onclick="startExperience()">
 <svg class="heart-svg" viewBox="0 0 32 29.6">
@@ -134,18 +175,13 @@ C3.8,0,0,3.8,0,8.4c0,9.3,16,21.2,16,21.2s16-11.9,16-21.2C32,3.8,28.2,0,23.6,0z"/
 
 <div id="text"></div>
 
-<div class="final" id="final">
-<div class="big">Pronto estaremos juntos, mi vida ❤️</div>
-<img src="foto.jpg">
+<div class="reveal-btn" id="revealBtn" onclick="showPolaroid()">
+Toca para ver nuestro futuro ❤️
 </div>
 
-<!-- PLAYER -->
-<div class="player">
-<div>Tatu — María Becerra 🎵</div>
-<div class="progress" onclick="seek(event)">
-<div class="progress-bar" id="progressBar"></div>
-</div>
-<button onclick="togglePlay()">Play / Pause</button>
+<div class="polaroid" id="polaroid">
+<img src="foto.jpg">
+<span>Pronto estaremos juntos, mi vida ❤️</span>
 </div>
 
 <audio id="music">
@@ -153,7 +189,7 @@ C3.8,0,0,3.8,0,8.4c0,9.3,16,21.2,16,21.2s16-11.9,16-21.2C32,3.8,28.2,0,23.6,0z"/
 </audio>
 
 <script>
-const phrases = [
+const phrases=[
 "Te amo de aquí a la luna en pasitos de tortuga 🐢",
 "Eres el motor de mi vida 💕",
 "Una vida a tu lado es la que anhelo 🏡",
@@ -166,10 +202,12 @@ const phrases = [
 
 let i=0,j=0;
 const textElement=document.getElementById("text");
-const finalSection=document.getElementById("final");
+const revealBtn=document.getElementById("revealBtn");
+const polaroid=document.getElementById("polaroid");
 const music=document.getElementById("music");
 const progressBar=document.getElementById("progressBar");
 
+/* Frases */
 function typeEffect(){
 if(i<phrases.length){
 let phrase=phrases[i];
@@ -187,7 +225,7 @@ typeEffect();
 }else{
 document.querySelector(".heart-container").style.display="none";
 textElement.style.display="none";
-finalSection.style.display="flex";
+revealBtn.style.display="inline-block";
 }
 }
 
@@ -196,12 +234,9 @@ music.play();
 if(i===0){typeEffect();}
 }
 
+/* Player */
 function togglePlay(){
-if(music.paused){
-music.play();
-}else{
-music.pause();
-}
+if(music.paused){music.play();}else{music.pause();}
 }
 
 music.addEventListener("timeupdate",()=>{
@@ -214,6 +249,30 @@ const width=e.currentTarget.clientWidth;
 const clickX=e.offsetX;
 music.currentTime=(clickX/width)*music.duration;
 }
+
+/* Polaroid */
+function showPolaroid(){
+revealBtn.style.display="none";
+polaroid.classList.add("show-polaroid");
+}
+
+/* Contador */
+function updateCounter(){
+const start=new Date("2023-02-11T00:00:00");
+const now=new Date();
+const diff=now-start;
+
+const days=Math.floor(diff/(1000*60*60*24));
+const years=Math.floor(days/365);
+const months=Math.floor((days%365)/30);
+const remainingDays=days%30;
+
+document.getElementById("counter").innerHTML=
+years+" años "+months+" meses "+remainingDays+" días juntos ❤️";
+}
+
+setInterval(updateCounter,1000);
+updateCounter();
 </script>
 
 </body>
