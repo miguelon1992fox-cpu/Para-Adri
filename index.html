@@ -175,16 +175,6 @@ font-size:20px;
 animation:floatUp 4s linear forwards;
 }
 
-@keyframes fallPetal{
-0%{
-transform:translateY(-50px) rotate(0deg);
-opacity:1;
-}
-100%{
-transform:translateY(100vh) rotate(360deg);
-opacity:0;
-}
-
 @keyframes floatUp{
 0%{transform:translateY(0);opacity:1;}
 100%{transform:translateY(-300px);opacity:0;}
@@ -386,7 +376,6 @@ setTimeout(()=>heart.remove(),4000);
 }
 }
 
-  
 /* CONTADOR */
 function updateCounter(){
 const start=new Date("2023-02-11T00:00:00");
