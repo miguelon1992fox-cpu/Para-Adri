@@ -243,20 +243,11 @@ opacity:0.8;
 }
 
 @keyframes floatMagic{
-0%{
-transform:translateY(0) scale(0.5);
-opacity:0;
-}
-20%{
-opacity:1;
-}
-100%{
-transform:translateY(-400px) scale(1.2);
-opacity:0;
-}
+0%{transform:translateY(0) scale(0.5);opacity:0;}
+20%{opacity:1;}
+100%{transform:translateY(-400px) scale(1.2);opacity:0;}
 }
 </style>
-
 </head>
 
 <body>
@@ -296,7 +287,6 @@ Toca para ver nuestro futuro ❤️
 <audio id="music" src="music.mp3"></audio>
 
 <script>
-
 const phrases=[
 "Te amo infinito 🐢❤️",
 "Eres mi motor 💕",
@@ -315,25 +305,18 @@ const polaroid=document.getElementById("polaroid");
 const music=document.getElementById("music");
 const progressBar=document.getElementById("progressBar");
 
-/* FRASES POR CLICK */
 function startExperience(){
-
 music.play();
-
 if(phraseIndex < phrases.length){
-
 createBubble(phrases[phraseIndex]);
 phraseIndex++;
-
 }else{
 document.querySelector(".heart-container").style.display="none";
 revealBtn.style.display="inline-block";
 }
 }
 
-/* NUEVA FUNCIÓN MEJORADA */
 function createBubble(text){
-
 const bubble=document.createElement("div");
 bubble.className="love-bubble";
 bubble.innerHTML=text;
@@ -360,12 +343,9 @@ bubble.style.top = (centerY + randomDir.y) + "px";
 
 document.body.appendChild(bubble);
 
-setTimeout(()=>{
-bubble.remove();
-},2500);
+setTimeout(()=>{ bubble.remove(); },2500);
 }
 
-/* PLAYER */
 function togglePlay(){
 const btn=document.querySelector(".player button");
 if(music.paused){
@@ -399,19 +379,15 @@ const clickX=e.offsetX;
 music.currentTime=(clickX/width)*music.duration;
 }
 
-/* POLAROID */
 function showPolaroid(){
 revealBtn.style.display="none";
-
 polaroid.classList.add("show-polaroid","magic");
 document.getElementById("counter").classList.add("show-counter");
-
 startHearts();
-startFlash();      // ✨ NUEVO
-startMagic();      // 💫 NUEVO
+startFlash();
+startMagic();
 }
 
-/* Corazones flotando */
 function startHearts(){
 for(let k=0;k<20;k++){
 setTimeout(()=>{
@@ -427,7 +403,6 @@ setTimeout(()=>heart.remove(),4000);
 }
 }
 
-/* CONTADOR */
 function updateCounter(){
 const start=new Date("2023-02-11T00:00:00");
 const now=new Date();
@@ -437,18 +412,14 @@ const years=Math.floor(days/365);
 document.getElementById("counter").innerHTML=
 "Hoy celebramos "+years+" años juntos 💍❤️";
 }
-
 updateCounter();
 
-* ✨ Flash tipo cámara */
+/* ✨ Flash tipo cámara */
 function startFlash(){
 const flash=document.createElement("div");
 flash.className="flash-overlay";
 document.body.appendChild(flash);
-
-setTimeout(()=>{
-flash.remove();
-},800);
+setTimeout(()=>{ flash.remove(); },800);
 }
 
 /* 💫 Partículas mágicas */
@@ -457,20 +428,13 @@ for(let i=0;i<25;i++){
 setTimeout(()=>{
 const particle=document.createElement("div");
 particle.className="magic-particle";
-
 particle.style.left=Math.random()*100+"vw";
 particle.style.top=(60+Math.random()*20)+"vh";
-
 document.body.appendChild(particle);
-
-setTimeout(()=>{
-particle.remove();
-},6000);
-
+setTimeout(()=>{ particle.remove(); },6000);
 },i*150);
 }
 }
-
 </script>
 
 </body>
