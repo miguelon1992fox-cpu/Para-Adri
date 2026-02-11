@@ -394,21 +394,6 @@ setTimeout(()=>heart.remove(),4000);
 }
 }
 
-  /* PETALOS */
-function startPetals(){
-for(let i=0;i<25;i++){
-setTimeout(()=>{
-const petal=document.createElement("div");
-petal.className="petal";
-petal.innerHTML="🌸";
-petal.style.left=Math.random()*100+"vw";
-petal.style.top="-50px";
-petal.style.fontSize=(15+Math.random()*15)+"px";
-document.body.appendChild(petal);
-setTimeout(()=>petal.remove(),6000);
-},i*150);
-}
-}
   
 /* CONTADOR */
 function updateCounter(){
