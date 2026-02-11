@@ -279,7 +279,6 @@ phraseIndex++;
 document.querySelector(".heart-container").style.display="none";
 revealBtn.style.display="inline-block";
 }
-}
 
 function createBubble(text){
 
@@ -290,13 +289,31 @@ bubble.innerHTML=text;
 const heart=document.querySelector(".heart-container");
 const rect=heart.getBoundingClientRect();
 
-bubble.style.left=(rect.left + rect.width/2 - 80 + (Math.random()*40-20))+"px";
-bubble.style.top=(rect.top - 60 + (Math.random()*20-10))+"px";
+const centerX = rect.left + rect.width/2 - 80;
+const centerY = rect.top + rect.height/2 - 20;
+
+/* Direcciones posibles */
+const directions = [
+{ x: 0, y: -80 },     // arriba
+{ x: 70, y: -60 },    // arriba derecha
+{ x: -70, y: -60 },   // arriba izquierda
+{ x: 90, y: 0 },      // derecha
+{ x: -90, y: 0 },     // izquierda
+{ x: 0, y: 70 }       // abajo
+];
+
+const randomDir = directions[Math.floor(Math.random()*directions.length)];
+
+bubble.style.left = (centerX + randomDir.x) + "px";
+bubble.style.top = (centerY + randomDir.y) + "px";
 
 document.body.appendChild(bubble);
 
-setTimeout(()=>bubble.remove(),2500);
+setTimeout(()=>{
+bubble.remove();
+},2500);
 }
+
 
 /* PLAYER */
 function togglePlay(){
