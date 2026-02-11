@@ -4,144 +4,136 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Adri ❤️</title>
-
 <style>
-body{
-    margin:0;
-    font-family: 'Segoe UI', sans-serif;
-    overflow:hidden;
-    text-align:center;
-    background: linear-gradient(135deg,#ffdde1,#ee9ca7);
-    animation: fondo 8s infinite alternate;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: linear-gradient(135deg, #1a001a, #330033, #660066);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+  color: white;
 }
 
-@keyframes fondo{
-    0%{background: linear-gradient(135deg,#ffdde1,#ee9ca7);}
-    100%{background: linear-gradient(135deg,#fbc2eb,#a6c1ee);}
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-h1{
-    margin-top:40px;
-    color:white;
+#heart {
+  font-size: 100px;
+  cursor: pointer;
+  margin-top: 50px;
+  animation: beat 1s infinite;
 }
 
-#heart{
-    font-size:100px;
-    cursor:pointer;
-    animation: latido 1s infinite;
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
 }
 
-@keyframes latido{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.2);}
-    100%{transform:scale(1);}
+#player {
+  display: none;
+  margin-top: 20px;
+  background: rgba(0,0,0,0.6);
+  padding: 15px;
+  border-radius: 12px;
+  width: 280px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#player{
-    display:none;
-    position:fixed;
-    top:20px;
-    left:50%;
-    transform:translateX(-50%);
-    background:white;
-    padding:15px;
-    border-radius:15px;
-    width:300px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+#player button {
+  background: #ff4d6d;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-button{
-    padding:8px 15px;
-    border:none;
-    background:#ff6b81;
-    color:white;
-    border-radius:8px;
-    cursor:pointer;
+#progress {
+  width: 100%;
 }
 
-#progress{
-    width:100%;
+#fotoBtn {
+  display: none;
+  margin-top: 20px;
+  background: #ff8fcf;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
 }
 
-#contador{
-    color:white;
-    font-size:20px;
-    margin-top:20px;
+#fotoContainer {
+  display: none;
+  position: fixed;
+  top: -400px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: top 1.5s ease;
 }
 
-#fotoBtn{
-    margin-top:20px;
+.polaroid {
+  background: #fdf6e3;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.4);
 }
 
-#fotoContainer{
-    display:none;
-    position:fixed;
-    top:-400px;
-    left:50%;
-    transform:translateX(-50%);
-    transition: top 1.5s ease;
+.polaroid img {
+  width: 250px;
+  border-radius: 10px;
 }
 
-.polaroid{
-    background:white;
-    padding:10px;
-    border-radius:10px;
-    box-shadow:0 15px 25px rgba(0,0,0,0.3);
+.petalo {
+  position: fixed;
+  width: 15px;
+  height: 20px;
+  background: radial-gradient(circle at 30% 30%, #ffb6c1, #ff69b4);
+  border-radius: 60% 40% 60% 40%;
+  transform: rotate(45deg);
+  animation: fall linear infinite;
+  opacity: 0.9;
 }
 
-.polaroid img{
-    width:250px;
-    border-radius:10px;
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(360deg); }
 }
 
-.polaroid p{
-    font-style:italic;
-}
-
-.petalo{
-    position:fixed;
-    width:15px;
-    height:20px;
-    background:pink;
-    border-radius: 50% 50% 50% 0;
-    transform:rotate(45deg);
-    animation: caer 6s linear infinite;
-}
-
-@keyframes caer{
-    0%{top:-10%;opacity:1;}
-    100%{top:110%;opacity:0;}
+#counter {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  font-size: 16px;
 }
 </style>
 </head>
-
 <body>
 
-<h1>Adri ❤️</h1>
-
 <div id="heart">❤️</div>
-
-<div id="contador"></div>
+<div id="counter"></div>
 
 <div id="player">
-    <div><strong>Tu Canción Especial</strong></div>
-    <div>Artista</div>
-    <audio id="audio" src="music.mp3"></audio>
-    <br><br>
-    <button onclick="togglePlay()">Play / Pause</button>
-    <br><br>
-    <input type="range" id="progress" value="0">
-    <div><span id="current">0:00</span> / <span id="duration">0:00</span></div>
+  <div><strong>Tatu — María Becerra 🎵</strong></div>
+  <button onclick="togglePlay()">Play / Pause</button><br><br>
+  <input type="range" id="progress" value="0">
+  <div><span id="current">0:00</span> / <span id="duration">0:00</span></div>
 </div>
 
-<button id="fotoBtn" onclick="mostrarFoto()">Toca para ver nuestro futuro 💕</button>
+<button id="fotoBtn" onclick="showPhoto()">Ver nuestro futuro 💕</button>
 
 <div id="fotoContainer">
-    <div class="polaroid">
-        <img src="foto.jpg">
-        <p>"Pronto estaremos juntos, mi vida"</p>
-    </div>
+  <div class="polaroid">
+    <img src="foto.jpg" alt="Nuestra foto">
+    <p>Pronto estaremos juntos, mi vida ❤️</p>
+  </div>
 </div>
+
+<audio id="audio" src="music.mp3"></audio>
 
 <script>
 const heart = document.getElementById("heart");
@@ -150,65 +142,71 @@ const audio = document.getElementById("audio");
 const progress = document.getElementById("progress");
 const current = document.getElementById("current");
 const duration = document.getElementById("duration");
+const fotoBtn = document.getElementById("fotoBtn");
+const contador = document.getElementById("counter");
 
-heart.addEventListener("click",()=>{
-    player.style.display="block";
-    audio.play();
-});
+// Mostrar player al tocar corazón
+heart.onclick = () => {
+  player.style.display = "block";
+  audio.play().catch(()=>{});
+  heart.style.display = "none";
+}
 
+// Play/Pause
 function togglePlay(){
-    if(audio.paused){
-        audio.play();
-    }else{
-        audio.pause();
-    }
+  if(audio.paused) audio.play();
+  else audio.pause();
 }
 
-audio.addEventListener("loadedmetadata",()=>{
-    duration.textContent = formatTime(audio.duration);
-    progress.max = audio.duration;
-});
-
-audio.addEventListener("timeupdate",()=>{
-    progress.value = audio.currentTime;
-    current.textContent = formatTime(audio.currentTime);
-});
-
-progress.addEventListener("input",()=>{
-    audio.currentTime = progress.value;
-});
-
-function formatTime(time){
-    let min = Math.floor(time/60);
-    let sec = Math.floor(time%60);
-    if(sec<10) sec="0"+sec;
-    return min+":"+sec;
+// Actualizar barra y tiempo
+audio.onloadedmetadata = () => {
+  duration.textContent = formatTime(audio.duration);
+  progress.max = audio.duration;
 }
 
-function mostrarFoto(){
-    const cont = document.getElementById("fotoContainer");
-    cont.style.display="block";
-    setTimeout(()=>{
-        cont.style.top="150px";
-    },100);
+audio.ontimeupdate = () => {
+  progress.value = audio.currentTime;
+  current.textContent = formatTime(audio.currentTime);
 }
 
-function crearPetalo(){
-    const petalo=document.createElement("div");
-    petalo.classList.add("petalo");
-    petalo.style.left=Math.random()*100+"vw";
-    petalo.style.animationDuration=(5+Math.random()*5)+"s";
-    document.body.appendChild(petalo);
-    setTimeout(()=>petalo.remove(),10000);
+progress.oninput = () => {
+  audio.currentTime = progress.value;
 }
 
-setInterval(crearPetalo,500);
+function formatTime(time) {
+  let m = Math.floor(time/60);
+  let s = Math.floor(time%60);
+  if(s<10) s = "0"+s;
+  return m+":"+s;
+}
 
-// Contador exacto
-const inicio = new Date("2023-02-11T00:00:00");
-const hoy = new Date("2026-02-11T00:00:00");
-let años = hoy.getFullYear() - inicio.getFullYear();
-document.getElementById("contador").innerHTML="❤️ "+años+" años exactos ❤️";
+// Mostrar botón foto cuando audio termina
+audio.onended = () => {
+  fotoBtn.style.display = "block";
+}
+
+// Mostrar foto con efecto
+function showPhoto() {
+  const cont = document.getElementById("fotoContainer");
+  cont.style.display = "block";
+  setTimeout(()=> cont.style.top = "150px", 100);
+  createPetals();
+}
+
+// Pétalos
+function createPetals(){
+  for(let i=0;i<25;i++){
+    let p = document.createElement("div");
+    p.classList.add("petalo");
+    p.style.left = Math.random()*100 + "vw";
+    p.style.animationDuration = (4+Math.random()*4) + "s";
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),8000);
+  }
+}
+
+// Contador exacto 3 años
+contador.textContent = "❤️ 3 años de amor del bueno ❤️";
 </script>
 
 </body>
