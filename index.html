@@ -20,10 +20,9 @@ body{
     justify-content:center;
     color:white;
     text-align:center;
-    position:relative;
 }
 
-/* Fondo estrellas */
+/* Fondo */
 .stars{
     position:absolute;
     width:100%;
@@ -39,16 +38,14 @@ body{
     to{background-position:10000px 5000px;}
 }
 
-/* Corazón SVG */
+/* Corazón */
 .heart-container{
     cursor:pointer;
-    z-index:2;
     animation:beat 1.2s infinite;
 }
 
 .heart-svg{
     width:150px;
-    height:150px;
     filter: drop-shadow(0 0 25px red);
 }
 
@@ -57,22 +54,49 @@ body{
     50%{transform:scale(1.15);}
 }
 
-/* Texto animado */
+/* Texto */
 #text{
     margin-top:40px;
     font-size:20px;
     max-width:90%;
     min-height:80px;
-    z-index:2;
 }
 
-/* Fecha */
-.date{
-    position:absolute;
+/* Player */
+.player{
+    position:fixed;
     bottom:20px;
-    font-size:14px;
-    opacity:0.7;
-    z-index:2;
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(10px);
+    padding:15px;
+    border-radius:20px;
+    width:260px;
+    box-shadow:0 0 20px pink;
+}
+
+.progress{
+    width:100%;
+    height:6px;
+    background:#555;
+    border-radius:5px;
+    margin:10px 0;
+    cursor:pointer;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:pink;
+    border-radius:5px;
+}
+
+button{
+    background:pink;
+    border:none;
+    padding:8px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
 /* Final */
@@ -80,7 +104,6 @@ body{
     display:none;
     flex-direction:column;
     align-items:center;
-    z-index:2;
 }
 
 .final img{
@@ -111,15 +134,22 @@ C3.8,0,0,3.8,0,8.4c0,9.3,16,21.2,16,21.2s16-11.9,16-21.2C32,3.8,28.2,0,23.6,0z"/
 
 <div id="text"></div>
 
-<div class="date">Desde el 11/02/2023 ❤️</div>
-
 <div class="final" id="final">
-    <div class="big">Pronto estaremos juntos, mi vida ❤️</div>
-    <img src="foto.jpg" alt="Nuestra foto">
+<div class="big">Pronto estaremos juntos, mi vida ❤️</div>
+<img src="foto.jpg">
 </div>
 
-<audio id="music" loop>
-    <source src="music.mp3" type="audio/mpeg">
+<!-- PLAYER -->
+<div class="player">
+<div>Tatu — María Becerra 🎵</div>
+<div class="progress" onclick="seek(event)">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+<button onclick="togglePlay()">Play / Pause</button>
+</div>
+
+<audio id="music">
+<source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -134,39 +164,55 @@ const phrases = [
 "Soy completamente tuyo 💕"
 ];
 
-let i = 0;
-let j = 0;
-const textElement = document.getElementById("text");
-const finalSection = document.getElementById("final");
-const music = document.getElementById("music");
+let i=0,j=0;
+const textElement=document.getElementById("text");
+const finalSection=document.getElementById("final");
+const music=document.getElementById("music");
+const progressBar=document.getElementById("progressBar");
 
 function typeEffect(){
-    if(i < phrases.length){
-        let currentPhrase = phrases[i];
-        if(j < currentPhrase.length){
-            textElement.innerHTML += currentPhrase.charAt(j);
-            j++;
-            setTimeout(typeEffect, 50);
-        }else{
-            setTimeout(()=>{
-                textElement.innerHTML="";
-                j=0;
-                i++;
-                typeEffect();
-            },2000);
-        }
-    }else{
-        document.querySelector(".heart-container").style.display="none";
-        textElement.style.display="none";
-        finalSection.style.display="flex";
-    }
+if(i<phrases.length){
+let phrase=phrases[i];
+if(j<phrase.length){
+textElement.innerHTML+=phrase.charAt(j);
+j++;
+setTimeout(typeEffect,50);
+}else{
+setTimeout(()=>{
+textElement.innerHTML="";
+j=0;i++;
+typeEffect();
+},2000);
+}
+}else{
+document.querySelector(".heart-container").style.display="none";
+textElement.style.display="none";
+finalSection.style.display="flex";
+}
 }
 
 function startExperience(){
-    music.play().catch(()=>{});
-    if(i===0){
-        typeEffect();
-    }
+music.play();
+if(i===0){typeEffect();}
+}
+
+function togglePlay(){
+if(music.paused){
+music.play();
+}else{
+music.pause();
+}
+}
+
+music.addEventListener("timeupdate",()=>{
+let percent=(music.currentTime/music.duration)*100;
+progressBar.style.width=percent+"%";
+});
+
+function seek(e){
+const width=e.currentTarget.clientWidth;
+const clickX=e.offsetX;
+music.currentTime=(clickX/width)*music.duration;
 }
 </script>
 
