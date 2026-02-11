@@ -16,7 +16,7 @@ text-align:center;
 color:white;
 }
 
-/* REPRODUCTOR */
+/* PLAYER */
 .player{
 position:fixed;
 top:20px;
@@ -29,7 +29,6 @@ box-shadow:0 0 30px #ff66c4;
 z-index:10;
 }
 
-/* CORAZÓN */
 .heart{
 font-size:120px;
 cursor:pointer;
@@ -45,17 +44,16 @@ z-index:5;
 100%{transform:scale(1);}
 }
 
-/* FOTO POLAROID */
 .polaroid{
 position:absolute;
-top:120px;
+top:140px;
 left:50%;
 transform:translateX(-50%) rotate(-5deg);
 background:#e0cbb4;
 padding:20px 20px 40px 20px;
 box-shadow:0 15px 30px rgba(0,0,0,0.6);
 display:none;
-z-index:6;
+z-index:4; /* debajo del reproductor */
 }
 
 .polaroid img{
@@ -70,15 +68,15 @@ color:#5a4033;
 font-weight:bold;
 }
 
-/* FRASES */
 .bubble{
 position:absolute;
-background:rgba(255,255,255,0.1);
+background:rgba(255,255,255,0.15);
 padding:15px 25px;
 border-radius:30px;
 backdrop-filter:blur(10px);
 animation:flotar 4s forwards;
 font-size:18px;
+z-index:8;
 }
 
 @keyframes flotar{
@@ -86,7 +84,6 @@ font-size:18px;
 100%{opacity:1;transform:translateY(-40px);}
 }
 
-/* PREGUNTA FINAL */
 .propuesta{
 display:none;
 position:absolute;
@@ -94,6 +91,9 @@ top:50%;
 left:50%;
 transform:translate(-50%,-50%);
 z-index:20;
+background:rgba(0,0,0,0.4);
+padding:40px;
+border-radius:20px;
 }
 
 .propuesta button{
@@ -114,7 +114,7 @@ cursor:pointer;
 
 <div class="player">
 <h3>Tatu — María Becerra 🎵</h3>
-<audio id="music" src="musica.mp3"></audio>
+<audio id="music" src="music.mp3"></audio>
 <button onclick="toggleMusic()">Play / Pause</button>
 </div>
 
@@ -133,7 +133,7 @@ cursor:pointer;
 
 <script>
 
-const frases = [
+const frases=[
 "Eres mi lugar favorito ❤️",
 "Contigo quiero todo 💕",
 "Eres mi sueño hecho realidad ✨",
@@ -141,29 +141,26 @@ const frases = [
 "Eres mi persona especial 💞"
 ];
 
-let index = 0;
-let musicStarted = false;
+let index=0;
+let musicStarted=false;
 
-const heart = document.getElementById("heart");
-const photo = document.getElementById("photo");
-const propuesta = document.getElementById("propuesta");
-const music = document.getElementById("music");
+const heart=document.getElementById("heart");
+const photo=document.getElementById("photo");
+const propuesta=document.getElementById("propuesta");
+const music=document.getElementById("music");
 
 heart.addEventListener("click",()=>{
 
-// Iniciar música al primer click
 if(!musicStarted){
-music.play();
+music.play().catch(()=>{});
 musicStarted=true;
 }
 
-// Mostrar foto en primer click
 if(index===0){
 photo.style.display="block";
 }
 
-// Mostrar frases
-if(index < frases.length){
+if(index<frases.length){
 crearBurbuja(frases[index]);
 index++;
 }else{
@@ -178,13 +175,16 @@ const bubble=document.createElement("div");
 bubble.className="bubble";
 bubble.innerText=texto;
 
-let heartRect = heart.getBoundingClientRect();
+let heartRect=heart.getBoundingClientRect();
 
-let randomX = heartRect.left + Math.random()*200 - 100;
-let randomY = heartRect.top + Math.random()*150 - 75;
+let angle=Math.random()*360;
+let radius=150;
 
-bubble.style.left = randomX+"px";
-bubble.style.top = randomY+"px";
+let x=heartRect.left+heartRect.width/2 + radius*Math.cos(angle);
+let y=heartRect.top+heartRect.height/2 + radius*Math.sin(angle);
+
+bubble.style.left=x+"px";
+bubble.style.top=y+"px";
 
 document.body.appendChild(bubble);
 
@@ -192,14 +192,14 @@ setTimeout(()=>bubble.remove(),4000);
 }
 
 function final(){
-photo.style.display="none"; // Oculta foto
+photo.style.display="none";
 heart.style.display="none";
 propuesta.style.display="block";
 }
 
 function toggleMusic(){
 if(music.paused){
-music.play();
+music.play().catch(()=>{});
 }else{
 music.pause();
 }
@@ -214,11 +214,9 @@ function noAcepto(){
 intentos++;
 if(intentos===1){
 alert("¿Estás segura? 😢");
-}
-else if(intentos===2){
+}else if(intentos===2){
 alert("Piénsalo bien 🥺");
-}
-else{
+}else{
 alert("El destino ya decidió que sí ❤️");
 }
 }
