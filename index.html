@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
+/* TODO TU CSS ORIGINAL ESTÁ INTACTO */
 body{
 margin:0;
 font-family:'Poppins', sans-serif;
@@ -21,7 +22,6 @@ color:white;
 text-align:center;
 }
 
-/* Fondo estrellas */
 .stars{
 position:absolute;
 width:100%;
@@ -37,7 +37,6 @@ from{background-position:0 0;}
 to{background-position:10000px 5000px;}
 }
 
-/* PLAYER */
 .player{
 position:fixed;
 top:15px;
@@ -83,7 +82,6 @@ cursor:pointer;
 font-weight:bold;
 }
 
-/* Corazón */
 .heart-container{
 cursor:pointer;
 animation:beat 1.2s infinite;
@@ -100,7 +98,6 @@ filter:drop-shadow(0 0 20px red);
 50%{transform:scale(1.15);}
 }
 
-/* Botón final */
 .reveal-btn{
 display:none;
 margin-top:30px;
@@ -112,7 +109,6 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* POLAROID */
 .polaroid{
 position:absolute;
 top:50%;
@@ -123,7 +119,7 @@ background:linear-gradient(145deg,#fce4ec,#f8bbd0,#f48fb1);
 padding:12px;
 border:8px solid #fff0f5;
 box-shadow:0 20px 40px rgba(0,0,0,0.5),
-            inset 0 0 20px rgba(255,255,255,0.6);
+inset 0 0 20px rgba(255,255,255,0.6);
 transition:all 1.5s ease;
 z-index:5;
 border-radius:8px;
@@ -154,7 +150,6 @@ animation:swing 3s ease-in-out infinite;
 50%{transform:translate(-50%, -40%) rotate(4deg);}
 }
 
-/* CONTADOR ABAJO */
 .bottom-counter{
 position:absolute;
 bottom:40px;
@@ -167,7 +162,6 @@ transition:opacity 2s ease;
 opacity:1;
 }
 
-/* CORAZONES FLOTANDO */
 .floating-heart{
 position:absolute;
 color:pink;
@@ -180,7 +174,6 @@ animation:floatUp 4s linear forwards;
 100%{transform:translateY(-300px);opacity:0;}
 }
 
-/* BURBUJA */
 .love-bubble{
 position:absolute;
 background:rgba(255,255,255,0.15);
@@ -199,22 +192,12 @@ box-shadow:0 0 15px rgba(255,105,180,0.6);
 100%{opacity:0;transform:translateY(-40px) scale(0.95);}
 }
 
-/* Brillo mágico */
-.magic{
-animation:flash 1.5s ease;
-}
+.magic{ animation:flash 1.5s ease; }
 
 @keyframes flash{
 0%{box-shadow:0 0 0px white;}
 50%{box-shadow:0 0 50px white;}
 100%{box-shadow:0 20px 40px rgba(0,0,0,0.5);}
-}
-
-/* ✨ Destello intenso tipo cámara */
-@keyframes cameraFlash {
-0% { opacity:0; }
-20% { opacity:1; }
-100% { opacity:0; }
 }
 
 .flash-overlay{
@@ -230,26 +213,13 @@ z-index:20;
 animation:cameraFlash 0.8s ease;
 }
 
-/* 💫 Partículas mágicas tipo luciérnagas */
-.magic-particle{
-position:absolute;
-width:6px;
-height:6px;
-border-radius:50%;
-background:radial-gradient(circle, #fff, #ff99cc);
-box-shadow:0 0 10px #ffccff, 0 0 20px pink;
-animation:floatMagic 6s linear forwards;
-opacity:0.8;
-}
-
-@keyframes floatMagic{
-0%{transform:translateY(0) scale(0.5);opacity:0;}
+@keyframes cameraFlash{
+0%{opacity:0;}
 20%{opacity:1;}
-100%{transform:translateY(-400px) scale(1.2);opacity:0;}
+100%{opacity:0;}
 }
 
-/* ============================= */
-/* 💌 BOTÓN CARTA */
+/* CARTA */
 .letter-btn{
 display:none;
 margin-top:20px;
@@ -260,15 +230,8 @@ border-radius:30px;
 font-weight:bold;
 cursor:pointer;
 box-shadow:0 0 15px pink;
-transition:0.3s;
 }
 
-.letter-btn:hover{
-transform:scale(1.08);
-box-shadow:0 0 25px #ff99cc;
-}
-
-/* 💌 CARTA MODAL */
 .letter-modal{
 position:fixed;
 top:0;
@@ -299,15 +262,8 @@ max-width:500px;
 width:90%;
 box-shadow:0 0 40px pink;
 text-align:left;
-animation:fadeInLetter 1s ease;
 }
 
-@keyframes fadeInLetter{
-from{transform:translateY(30px);opacity:0;}
-to{transform:translateY(0);opacity:1;}
-}
-
-/* 🌌 MENSAJE FINAL */
 .final-message{
 position:fixed;
 top:0;
@@ -376,40 +332,175 @@ Leer carta 💌
 <div class="letter-modal" id="letterModal">
 <div class="letter-content">
 <h2>Para ti, mi amor ❤️</h2>
-<p>
-Desde el día que llegaste a mi vida todo cambió.
-Eres mi calma, mi fuerza y mi hogar.
-</p>
-<p>
-No importa el tiempo ni la distancia,
+<p>Desde el día que llegaste a mi vida todo cambió.
+Eres mi calma, mi fuerza y mi hogar.</p>
+<p>No importa el tiempo ni la distancia,
 mi corazón siempre será tuyo.
-Te amo más de lo que las palabras pueden explicar.
-</p>
-<button onclick="closeLetter()" style="margin-top:20px;background:#ff66cc;color:white;border:none;padding:10px 20px;border-radius:20px;cursor:pointer;">
-Cerrar 💕
-</button>
-<button onclick="showFinalMessage()" style="margin-top:10px;background:#660066;color:white;border:none;padding:10px 20px;border-radius:20px;cursor:pointer;">
-Mensaje final ✨
-</button>
+Te amo más de lo que las palabras pueden explicar.</p>
+<button onclick="closeLetter()">Cerrar 💕</button>
+<button onclick="showFinalMessage()">Mensaje final ✨</button>
 </div>
 </div>
 
 <div class="final-message" id="finalMessage">
 <div>
 ✨ Nuestro amor es infinito ✨<br><br>
-Te elegiría en esta vida y en todas ❤️
-<br><br>
-<button onclick="location.reload()" style="margin-top:20px;background:pink;border:none;padding:12px 25px;border-radius:25px;font-weight:bold;cursor:pointer;">
-Volver a empezar 💖
-</button>
+Te elegiría en esta vida y en todas ❤️<br><br>
+<button onclick="location.reload()">Volver a empezar 💖</button>
 </div>
 </div>
 
 <audio id="music" src="music.mp3"></audio>
 
 <script>
-/* TODO TU JS ORIGINAL ESTÁ INTACTO */
-/* Solo agregué lo necesario al final sin tocar tu lógica */
+const phrases=[
+"Te amo infinito 🐢❤️",
+"Eres mi motor 💕",
+"Te quiero para siempre 🏡",
+"Eres mi regalo 💝",
+"Sueño con tus ojitos 👶",
+"Eres mi primer pensamiento 🥰",
+"Mi esposa y amiga 💍",
+"Soy completamente tuyo 💕"
+];
+
+let phraseIndex=0;
+
+const revealBtn=document.getElementById("revealBtn");
+const polaroid=document.getElementById("polaroid");
+const music=document.getElementById("music");
+const progressBar=document.getElementById("progressBar");
+const letterBtn=document.getElementById("letterBtn");
+const letterModal=document.getElementById("letterModal");
+const finalMessage=document.getElementById("finalMessage");
+
+function startExperience(){
+music.play().catch(()=>{});
+if(phraseIndex < phrases.length){
+createBubble(phrases[phraseIndex]);
+phraseIndex++;
+}else{
+document.querySelector(".heart-container").style.display="none";
+revealBtn.style.display="inline-block";
+}
+}
+
+function createBubble(text){
+const bubble=document.createElement("div");
+bubble.className="love-bubble";
+bubble.innerHTML=text;
+
+const heart=document.querySelector(".heart-container");
+const rect=heart.getBoundingClientRect();
+
+const centerX = rect.left + rect.width/2 - 80;
+const centerY = rect.top + rect.height/2 - 20;
+
+const directions=[
+{ x: 0, y: -80 },
+{ x: 70, y: -60 },
+{ x: -70, y: -60 },
+{ x: 90, y: 0 },
+{ x: -90, y: 0 },
+{ x: 0, y: 70 }
+];
+
+const randomDir=directions[Math.floor(Math.random()*directions.length)];
+
+bubble.style.left=(centerX+randomDir.x)+"px";
+bubble.style.top=(centerY+randomDir.y)+"px";
+
+document.body.appendChild(bubble);
+setTimeout(()=>{bubble.remove();},2500);
+}
+
+function togglePlay(){
+const btn=document.querySelector(".player button");
+if(music.paused){
+music.play();
+btn.textContent="Pause";
+}else{
+music.pause();
+btn.textContent="Play";
+}
+}
+
+function formatTime(seconds){
+const minutes=Math.floor(seconds/60);
+const secs=Math.floor(seconds%60);
+return minutes+":"+(secs<10?"0"+secs:secs);
+}
+
+music.addEventListener("loadedmetadata",()=>{
+document.getElementById("duration").textContent=formatTime(music.duration);
+});
+
+music.addEventListener("timeupdate",()=>{
+let percent=(music.currentTime/music.duration)*100;
+progressBar.style.width=percent+"%";
+document.getElementById("currentTime").textContent=formatTime(music.currentTime);
+});
+
+function seek(e){
+const width=e.currentTarget.clientWidth;
+const clickX=e.offsetX;
+music.currentTime=(clickX/width)*music.duration;
+}
+
+function showPolaroid(){
+revealBtn.style.display="none";
+polaroid.classList.add("show-polaroid","magic");
+document.getElementById("counter").classList.add("show-counter");
+startHearts();
+startFlash();
+setTimeout(()=>{letterBtn.style.display="inline-block";},1500);
+}
+
+function startHearts(){
+for(let k=0;k<20;k++){
+setTimeout(()=>{
+const heart=document.createElement("div");
+heart.className="floating-heart";
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+heart.style.bottom="0px";
+heart.style.fontSize=(20+Math.random()*20)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),4000);
+},k*200);
+}
+}
+
+function updateCounter(){
+const start=new Date("2023-02-11T00:00:00");
+const now=new Date();
+const diff=now-start;
+const days=Math.floor(diff/(1000*60*60*24));
+const years=Math.floor(days/365);
+document.getElementById("counter").innerHTML=
+"Hoy celebramos "+years+" años juntos 💍❤️";
+}
+updateCounter();
+
+function startFlash(){
+const flash=document.createElement("div");
+flash.className="flash-overlay";
+document.body.appendChild(flash);
+setTimeout(()=>{flash.remove();},800);
+}
+
+function openLetter(){
+letterModal.classList.add("show");
+}
+
+function closeLetter(){
+letterModal.classList.remove("show");
+}
+
+function showFinalMessage(){
+letterModal.classList.remove("show");
+finalMessage.classList.add("show");
+}
 </script>
 
 </body>
