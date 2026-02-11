@@ -4,150 +4,157 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Adri ❤️</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
 body{
-margin:0;
-font-family:'Poppins', sans-serif;
-background:linear-gradient(135deg,#1a001a,#330033,#660066);
-height:100vh;
-overflow:hidden;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-color:white;
-text-align:center;
+    margin:0;
+    font-family:'Poppins', sans-serif;
+    background:linear-gradient(135deg,#1a001a,#330033,#660066);
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    text-align:center;
 }
 
-/* Fondo */
+/* Estrellas */
 .stars{
-position:absolute;
-width:100%;
-height:100%;
-background:url('https://www.transparenttextures.com/patterns/stardust.png');
-animation:moveStars 60s linear infinite;
-opacity:0.4;
-z-index:-1;
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:url('https://www.transparenttextures.com/patterns/stardust.png');
+    animation:moveStars 60s linear infinite;
+    opacity:0.4;
 }
 
 @keyframes moveStars{
-from{background-position:0 0;}
-to{background-position:10000px 5000px;}
+    from{background-position:0 0;}
+    to{background-position:10000px 5000px;}
 }
 
-/* Player arriba */
+/* Reproductor arriba */
 .player{
-position:fixed;
-top:15px;
-background:rgba(0,0,0,0.4);
-backdrop-filter:blur(12px);
-padding:12px 20px;
-border-radius:25px;
-box-shadow:0 0 20px pink;
-font-size:14px;
-}
-
-.progress{
-width:220px;
-height:6px;
-background:#555;
-border-radius:5px;
-margin:6px 0;
-cursor:pointer;
-}
-
-.progress-bar{
-height:100%;
-width:0%;
-background:pink;
-border-radius:5px;
-}
-
-button{
-background:pink;
-border:none;
-padding:6px 14px;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-}
-
-/* Contador */
-.counter{
-font-size:12px;
-opacity:0.8;
+    position:fixed;
+    top:15px;
+    backdrop-filter:blur(12px);
+    background:rgba(255,255,255,0.1);
+    padding:10px 20px;
+    border-radius:30px;
+    font-size:14px;
+    z-index:10;
 }
 
 /* Corazón */
-.heart-container{
-cursor:pointer;
-animation:beat 1.2s infinite;
-margin-top:40px;
+.heart{
+    width:120px;
+    height:120px;
+    background:red;
+    position:relative;
+    transform:rotate(-45deg);
+    animation:beat 1.2s infinite;
+    cursor:pointer;
+    box-shadow:0 0 25px red;
+    z-index:2;
 }
 
-.heart-svg{
-width:140px;
-filter:drop-shadow(0 0 20px red);
+.heart:before,
+.heart:after{
+    content:"";
+    width:120px;
+    height:120px;
+    background:red;
+    border-radius:50%;
+    position:absolute;
 }
+
+.heart:before{top:-60px;}
+.heart:after{left:60px;}
 
 @keyframes beat{
-0%,100%{transform:scale(1);}
-50%{transform:scale(1.15);}
+    0%,100%{transform:rotate(-45deg) scale(1);}
+    50%{transform:rotate(-45deg) scale(1.15);}
 }
 
-/* Texto */
 #text{
-margin-top:30px;
-font-size:20px;
-max-width:90%;
-min-height:80px;
+    margin-top:40px;
+    font-size:20px;
+    max-width:90%;
+    min-height:80px;
 }
 
 /* Botón final */
 .reveal-btn{
-display:none;
-margin-top:30px;
-background:white;
-color:#660066;
-padding:12px 25px;
-border-radius:30px;
-font-weight:bold;
-cursor:pointer;
+    display:none;
+    margin-top:30px;
+    padding:15px 25px;
+    border:none;
+    border-radius:30px;
+    background:linear-gradient(45deg,#ff4d6d,#ff99ac);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:0 0 15px pink;
 }
 
-/* Polaroid */
+/* Polaroid retro */
 .polaroid{
-position:absolute;
-top:-400px;
-background:white;
-padding:10px;
-box-shadow:0 20px 40px rgba(0,0,0,0.5);
-transform:rotate(-8deg);
-transition:all 1.5s ease;
+    display:none;
+    position:absolute;
+    bottom:50%;
+    transform:translateY(50%) rotate(-5deg);
+    background:linear-gradient(145deg,#fce3ec,#ffd6e0);
+    padding:15px 15px 40px 15px;
+    border-radius:10px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.5);
+    animation:drop 1.5s ease forwards;
+    z-index:5;
 }
 
 .polaroid img{
-width:240px;
-display:block;
+    width:220px;
+    border-radius:8px;
+    display:block;
 }
 
-.polaroid span{
-display:block;
-margin-top:8px;
-color:#333;
-font-weight:bold;
+@keyframes drop{
+    from{transform:translateY(-200%) rotate(-15deg); opacity:0;}
+    to{transform:translateY(50%) rotate(-5deg); opacity:1;}
 }
 
-.show-polaroid{
-top:25%;
-animation:swing 3s ease-in-out infinite;
+/* Pétalos */
+.petals{
+    position:absolute;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    overflow:hidden;
 }
 
-@keyframes swing{
-0%,100%{transform:rotate(-8deg);}
-50%{transform:rotate(4deg);}
+.petal{
+    position:absolute;
+    width:15px;
+    height:15px;
+    background:pink;
+    border-radius:50%;
+    opacity:0.8;
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    from{transform:translateY(-10%);}
+    to{transform:translateY(110vh);}
+}
+
+.counter{
+    position:absolute;
+    bottom:20px;
+    font-size:14px;
+    opacity:0.8;
 }
 </style>
 </head>
@@ -156,123 +163,100 @@ animation:swing 3s ease-in-out infinite;
 
 <div class="stars"></div>
 
-<!-- PLAYER -->
 <div class="player">
-<div>Tatu — María Becerra 🎵</div>
-<div class="counter" id="counter"></div>
-<div class="progress" onclick="seek(event)">
-<div class="progress-bar" id="progressBar"></div>
-</div>
-<button onclick="togglePlay()">Play / Pause</button>
+    🎵 Nuestra canción | ⏳ <span id="time">00:00</span>
 </div>
 
-<div class="heart-container" onclick="startExperience()">
-<svg class="heart-svg" viewBox="0 0 32 29.6">
-<path fill="red" d="M23.6,0c-3.4,0-6.4,2.2-7.6,5.3C14.8,2.2,11.8,0,8.4,0
-C3.8,0,0,3.8,0,8.4c0,9.3,16,21.2,16,21.2s16-11.9,16-21.2C32,3.8,28.2,0,23.6,0z"/>
-</svg>
-</div>
+<div class="heart" onclick="startExperience()"></div>
 
 <div id="text"></div>
 
-<div class="reveal-btn" id="revealBtn" onclick="showPolaroid()">
-Toca para ver nuestro futuro ❤️
+<button class="reveal-btn" onclick="showPhoto()">Toca para ver nuestro futuro ❤️</button>
+
+<div class="polaroid" id="photo">
+    <img src="foto.jpg" alt="Nuestra foto">
 </div>
 
-<div class="polaroid" id="polaroid">
-<img src="foto.jpg">
-<span>Pronto estaremos juntos, mi vida ❤️</span>
-</div>
+<div class="petals" id="petals"></div>
 
-<audio id="music">
-<source src="music.mp3" type="audio/mpeg">
+<div class="counter" id="counter"></div>
+
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-const phrases=[
+const phrases = [
 "Te amo de aquí a la luna en pasitos de tortuga 🐢",
 "Eres el motor de mi vida 💕",
 "Una vida a tu lado es la que anhelo 🏡",
 "Eres el regalito que Dios me envió 💝",
-"Un bebé con tus ojitos es lo que deseo 👶",
 "Siempre despierto y eres lo primero en lo que pienso 🥰☀️",
-"Mi esposa 👰🏻‍♀️, amiga 👩🏻 y confidente 🕵🏻‍♀️",
 "Soy completamente tuyo 💕"
 ];
 
 let i=0,j=0;
 const textElement=document.getElementById("text");
-const revealBtn=document.getElementById("revealBtn");
-const polaroid=document.getElementById("polaroid");
+const revealBtn=document.querySelector(".reveal-btn");
 const music=document.getElementById("music");
-const progressBar=document.getElementById("progressBar");
 
-/* Frases */
 function typeEffect(){
-if(i<phrases.length){
-let phrase=phrases[i];
-if(j<phrase.length){
-textElement.innerHTML+=phrase.charAt(j);
-j++;
-setTimeout(typeEffect,50);
-}else{
-setTimeout(()=>{
-textElement.innerHTML="";
-j=0;i++;
-typeEffect();
-},2000);
-}
-}else{
-document.querySelector(".heart-container").style.display="none";
-textElement.style.display="none";
-revealBtn.style.display="inline-block";
-}
+    if(i<phrases.length){
+        let phrase=phrases[i];
+        if(j<phrase.length){
+            textElement.innerHTML+=phrase[j];
+            j++;
+            setTimeout(typeEffect,50);
+        }else{
+            setTimeout(()=>{
+                textElement.innerHTML="";
+                j=0;
+                i++;
+                typeEffect();
+            },2000);
+        }
+    }else{
+        document.querySelector(".heart").style.display="none";
+        revealBtn.style.display="inline-block";
+    }
 }
 
 function startExperience(){
-music.play();
-if(i===0){typeEffect();}
+    music.play().catch(()=>{});
+    if(i===0) typeEffect();
 }
 
-/* Player */
-function togglePlay(){
-if(music.paused){music.play();}else{music.pause();}
-}
-
-music.addEventListener("timeupdate",()=>{
-let percent=(music.currentTime/music.duration)*100;
-progressBar.style.width=percent+"%";
-});
-
-function seek(e){
-const width=e.currentTarget.clientWidth;
-const clickX=e.offsetX;
-music.currentTime=(clickX/width)*music.duration;
-}
-
-/* Polaroid */
-function showPolaroid(){
-revealBtn.style.display="none";
-polaroid.classList.add("show-polaroid");
-}
-
-/* Contador */
+/* Contador exacto */
 function updateCounter(){
-const start=new Date("2023-02-11T00:00:00");
-const now=new Date();
-const diff=now-start;
+    const start=new Date("2023-02-11T00:00:00");
+    const now=new Date();
+    const diff=now-start;
 
-const days=Math.floor(diff/(1000*60*60*24));
-const years=Math.floor(days/365);
-const months=Math.floor((days%365)/30);
-const remainingDays=days%30;
+    const years=3;
+    const days=Math.floor(diff/(1000*60*60*24))-(years*365);
 
-document.getElementById("counter").innerHTML=
-years+" años "+months+" meses "+remainingDays+" días juntos ❤️";
+    document.getElementById("counter").innerHTML=
+    "❤️ 3 años juntos | "+days+" días más";
+}
+updateCounter();
+
+/* Mostrar foto y pétalos */
+function showPhoto(){
+    document.getElementById("photo").style.display="block";
+    createPetals();
 }
 
-setInterval(updateCounter,1000);
-updateCounter();
+function createPetals(){
+    const container=document.getElementById("petals");
+    for(let k=0;k<30;k++){
+        let petal=document.createElement("div");
+        petal.classList.add("petal");
+        petal.style.left=Math.random()*100+"vw";
+        petal.style.animationDuration=(3+Math.random()*5)+"s";
+        container.appendChild(petal);
+        setTimeout(()=>petal.remove(),8000);
+    }
+}
 </script>
 
 </body>
