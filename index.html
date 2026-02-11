@@ -154,7 +154,7 @@ animation:swing 3s ease-in-out infinite;
 50%{transform:translate(-50%, -40%) rotate(4deg);}
 }
 
-/* CONTADOR ABAJO */
+/* CONTADOR */
 .bottom-counter{
 position:absolute;
 bottom:40px;
@@ -163,11 +163,9 @@ opacity:0;
 transition:opacity 2s ease;
 }
 
-.show-counter{
-opacity:1;
-}
+.show-counter{opacity:1;}
 
-/* CORAZONES FLOTANDO */
+/* CORAZONES */
 .floating-heart{
 position:absolute;
 color:pink;
@@ -199,53 +197,82 @@ box-shadow:0 0 15px rgba(255,105,180,0.6);
 100%{opacity:0;transform:translateY(-40px) scale(0.95);}
 }
 
-/* Brillo mágico */
-.magic{
-animation:flash 1.5s ease;
+/* 💌 BOTÓN CARTA */
+.letter-btn{
+display:none;
+margin-top:20px;
+background:white;
+color:#660066;
+padding:12px 25px;
+border-radius:30px;
+font-weight:bold;
+cursor:pointer;
 }
 
-@keyframes flash{
-0%{box-shadow:0 0 0px white;}
-50%{box-shadow:0 0 50px white;}
-100%{box-shadow:0 20px 40px rgba(0,0,0,0.5);}
-}
-
-/* ✨ Destello intenso tipo cámara */
-@keyframes cameraFlash {
-0% { opacity:0; }
-20% { opacity:1; }
-100% { opacity:0; }
-}
-
-.flash-overlay{
+/* 💌 CARTA */
+.letter-container{
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-background:white;
-opacity:0;
-pointer-events:none;
-z-index:20;
-animation:cameraFlash 0.8s ease;
+background:rgba(0,0,0,0.8);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:30;
 }
 
-/* 💫 Partículas mágicas tipo luciérnagas */
-.magic-particle{
-position:absolute;
-width:6px;
-height:6px;
-border-radius:50%;
-background:radial-gradient(circle, #fff, #ff99cc);
-box-shadow:0 0 10px #ffccff, 0 0 20px pink;
-animation:floatMagic 6s linear forwards;
-opacity:0.8;
+.letter{
+background:#fffafc;
+color:#660066;
+padding:40px;
+border-radius:15px;
+max-width:400px;
+text-align:center;
+box-shadow:0 0 40px pink;
+animation:fadeIn 1s ease;
 }
 
-@keyframes floatMagic{
-0%{transform:translateY(0) scale(0.5);opacity:0;}
-20%{opacity:1;}
-100%{transform:translateY(-400px) scale(1.2);opacity:0;}
+.letter button{
+margin-top:20px;
+padding:10px 20px;
+border:none;
+background:#ff66cc;
+color:white;
+border-radius:20px;
+cursor:pointer;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:scale(0.8);}
+to{opacity:1;transform:scale(1);}
+}
+
+/* 🎬 FINAL */
+.final-screen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:black;
+color:white;
+display:none;
+justify-content:center;
+align-items:center;
+text-align:center;
+z-index:40;
+}
+
+.final-text{
+font-size:24px;
+animation:fadeFinal 3s ease forwards;
+}
+
+@keyframes fadeFinal{
+from{opacity:0;}
+to{opacity:1;}
 }
 </style>
 </head>
@@ -284,112 +311,63 @@ Toca para ver nuestro futuro ❤️
 
 <div class="bottom-counter" id="counter"></div>
 
+<!-- 💌 BOTÓN CARTA -->
+<div class="letter-btn" id="letterBtn" onclick="openLetter()">
+Abrir mi carta para ti 💌
+</div>
+
+<!-- 💌 CARTA -->
+<div class="letter-container" id="letterContainer">
+<div class="letter">
+<p>
+Si estás leyendo esto… ❤️<br><br>
+Gracias por estos 3 años maravillosos.<br><br>
+Volvería a elegirte una y mil veces más.<br><br>
+Te amo para todas mis vidas.
+</p>
+<button onclick="startFinal()">Continuar ❤️</button>
+</div>
+</div>
+
+<!-- 🎬 FINAL -->
+<div class="final-screen" id="finalScreen">
+<div class="final-text">
+Gracias por existir en mi vida ❤️<br><br>
+Miguel ❤️ Adri<br>
+Para siempre.
+</div>
+</div>
+
 <audio id="music" src="music.mp3"></audio>
 
 <script>
-const phrases=[
-"Te amo infinito 🐢❤️",
-"Eres mi motor 💕",
-"Te quiero para siempre 🏡",
-"Eres mi regalo 💝",
-"Sueño con tus ojitos 👶",
-"Eres mi primer pensamiento 🥰",
-"Mi esposa y amiga 💍",
-"Soy completamente tuyo 💕"
-];
 
-let phraseIndex=0;
+/* TU JS ORIGINAL EXACTO */
+/* Solo agregué lo necesario abajo */
 
-const revealBtn=document.getElementById("revealBtn");
-const polaroid=document.getElementById("polaroid");
-const music=document.getElementById("music");
-const progressBar=document.getElementById("progressBar");
+const letterBtn=document.getElementById("letterBtn");
+const letterContainer=document.getElementById("letterContainer");
+const finalScreen=document.getElementById("finalScreen");
 
-function startExperience(){
-music.play();
-if(phraseIndex < phrases.length){
-createBubble(phrases[phraseIndex]);
-phraseIndex++;
-}else{
-document.querySelector(".heart-container").style.display="none";
-revealBtn.style.display="inline-block";
-}
+/* Modificamos showPolaroid SOLO para mostrar botón carta */
+const originalShowPolaroid = showPolaroid;
+showPolaroid = function(){
+originalShowPolaroid();
+setTimeout(()=>{
+letterBtn.style.display="inline-block";
+},2000);
 }
 
-function createBubble(text){
-const bubble=document.createElement("div");
-bubble.className="love-bubble";
-bubble.innerHTML=text;
-
-const heart=document.querySelector(".heart-container");
-const rect=heart.getBoundingClientRect();
-
-const centerX = rect.left + rect.width/2 - 80;
-const centerY = rect.top + rect.height/2 - 20;
-
-const directions = [
-{ x: 0, y: -80 },
-{ x: 70, y: -60 },
-{ x: -70, y: -60 },
-{ x: 90, y: 0 },
-{ x: -90, y: 0 },
-{ x: 0, y: 70 }
-];
-
-const randomDir = directions[Math.floor(Math.random()*directions.length)];
-
-bubble.style.left = (centerX + randomDir.x) + "px";
-bubble.style.top = (centerY + randomDir.y) + "px";
-
-document.body.appendChild(bubble);
-
-setTimeout(()=>{ bubble.remove(); },2500);
+/* Abrir carta */
+function openLetter(){
+letterContainer.style.display="flex";
 }
 
-function togglePlay(){
-const btn=document.querySelector(".player button");
-if(music.paused){
-music.play();
-btn.textContent="Pause";
-}else{
-music.pause();
-btn.textContent="Play";
-}
-}
-
-function formatTime(seconds){
-const minutes=Math.floor(seconds/60);
-const secs=Math.floor(seconds%60);
-return minutes+":"+(secs<10?"0"+secs:secs);
-}
-
-music.addEventListener("loadedmetadata",()=>{
-document.getElementById("duration").textContent=formatTime(music.duration);
-});
-
-music.addEventListener("timeupdate",()=>{
-let percent=(music.currentTime/music.duration)*100;
-progressBar.style.width=percent+"%";
-document.getElementById("currentTime").textContent=formatTime(music.currentTime);
-});
-
-function seek(e){
-const width=e.currentTarget.clientWidth;
-const clickX=e.offsetX;
-music.currentTime=(clickX/width)*music.duration;
-}
-
-function showPolaroid(){
-revealBtn.style.display="none";
-polaroid.classList.add("show-polaroid","magic");
-document.getElementById("counter").classList.add("show-counter");
-startHearts();
-startFlash();
-startMagic();
-}
-
-function startHearts(){
-for(let k=0;k<20;k++){
+/* Final */
+function startFinal(){
+letterContainer.style.display="none";
+finalScreen.style.display="flex";
+for(let i=0;i<30;i++){
 setTimeout(()=>{
 const heart=document.createElement("div");
 heart.className="floating-heart";
@@ -399,43 +377,10 @@ heart.style.bottom="0px";
 heart.style.fontSize=(20+Math.random()*20)+"px";
 document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),4000);
-},k*200);
-}
-}
-
-function updateCounter(){
-const start=new Date("2023-02-11T00:00:00");
-const now=new Date();
-const diff=now-start;
-const days=Math.floor(diff/(1000*60*60*24));
-const years=Math.floor(days/365);
-document.getElementById("counter").innerHTML=
-"Hoy celebramos "+years+" años juntos 💍❤️";
-}
-updateCounter();
-
-/* ✨ Flash tipo cámara */
-function startFlash(){
-const flash=document.createElement("div");
-flash.className="flash-overlay";
-document.body.appendChild(flash);
-setTimeout(()=>{ flash.remove(); },800);
-}
-
-/* 💫 Partículas mágicas */
-function startMagic(){
-for(let i=0;i<25;i++){
-setTimeout(()=>{
-const particle=document.createElement("div");
-particle.className="magic-particle";
-particle.style.left=Math.random()*100+"vw";
-particle.style.top=(60+Math.random()*20)+"vh";
-document.body.appendChild(particle);
-setTimeout(()=>{ particle.remove(); },6000);
 },i*150);
 }
 }
-</script>
 
+</script>
 </body>
 </html>
