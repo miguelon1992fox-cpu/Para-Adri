@@ -11,8 +11,9 @@ body{
 margin:0;
 font-family:'Poppins', sans-serif;
 background:linear-gradient(135deg,#1a001a,#330033,#660066);
-height:100vh;
-overflow:hidden;
+min-height:100vh;
+overflow-x:hidden;
+overflow-y:auto;
 display:flex;
 flex-direction:column;
 align-items:center;
@@ -121,15 +122,19 @@ cursor:pointer;
 .polaroid{
 position:absolute;
 top:-400px;
+left:50%;
+transform:translateX(-50%) rotate(-8deg);
 background:white;
 padding:10px;
 box-shadow:0 20px 40px rgba(0,0,0,0.5);
-transform:rotate(-8deg);
 transition:all 1.5s ease;
 }
 
+/* Imagen adaptable */
 .polaroid img{
 width:240px;
+max-width:80vw;
+height:auto;
 display:block;
 }
 
@@ -141,13 +146,15 @@ font-weight:bold;
 }
 
 .show-polaroid{
-top:25%;
+top:50%;
+left:50%;
+transform:translate(-50%, -50%) rotate(-8deg);
 animation:swing 3s ease-in-out infinite;
 }
 
 @keyframes swing{
-0%,100%{transform:rotate(-8deg);}
-50%{transform:rotate(4deg);}
+0%,100%{transform:translate(-50%, -50%) rotate(-8deg);}
+50%{transform:translate(-50%, -50%) rotate(4deg);}
 }
 </style>
 </head>
