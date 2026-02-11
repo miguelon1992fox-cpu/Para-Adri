@@ -83,7 +83,7 @@ cursor:pointer;
 font-weight:bold;
 }
 
-/* Corazón inicial */
+/* Corazón */
 .heart-container{
 cursor:pointer;
 animation:beat 1.2s infinite;
@@ -100,15 +100,21 @@ filter:drop-shadow(0 0 20px red);
 50%{transform:scale(1.15);}
 }
 
-/* Texto frases */
-#text{
+/* BURBUJA FRASES */
+.message-bubble{
 margin-top:30px;
-font-size:20px;
-max-width:90%;
-min-height:80px;
+background:rgba(255,255,255,0.08);
+padding:15px 25px;
+border-radius:25px;
+max-width:80%;
+backdrop-filter:blur(10px);
+box-shadow:0 0 20px rgba(255,105,180,0.3);
+font-size:18px;
+min-height:50px;
+transition:all 0.5s ease;
 }
 
-/* Botón final */
+/* BOTÓN FINAL */
 .reveal-btn{
 display:none;
 margin-top:30px;
@@ -120,15 +126,15 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* POLAROID */
+/* POLAROID RETRO */
 .polaroid{
 position:absolute;
 top:50%;
 left:50%;
-transform:translate(-50%, -200%) rotate(-8deg);
+transform:translate(-50%, -200%) rotate(-6deg);
 opacity:0;
-background:white;
-padding:10px;
+background:#f5e6d3;
+padding:15px 15px 40px 15px;
 box-shadow:0 20px 40px rgba(0,0,0,0.5);
 transition:all 1.5s ease;
 z-index:5;
@@ -137,29 +143,28 @@ z-index:5;
 .polaroid img{
 width:200px;
 max-width:70vw;
-height:auto;
 display:block;
 }
 
 .polaroid span{
 display:block;
-margin-top:8px;
-color:#333;
+margin-top:12px;
+color:#5a3e36;
 font-weight:bold;
 }
 
 .show-polaroid{
-transform:translate(-50%, -40%) rotate(-8deg);
+transform:translate(-50%, -40%) rotate(-6deg);
 opacity:1;
 animation:swing 3s ease-in-out infinite;
 }
 
 @keyframes swing{
-0%,100%{transform:translate(-50%, -40%) rotate(-8deg);}
+0%,100%{transform:translate(-50%, -40%) rotate(-6deg);}
 50%{transform:translate(-50%, -40%) rotate(4deg);}
 }
 
-/* CONTADOR ABAJO */
+/* CONTADOR */
 .bottom-counter{
 position:absolute;
 bottom:40px;
@@ -172,7 +177,7 @@ transition:opacity 2s ease;
 opacity:1;
 }
 
-/* CORAZONES FLOTANDO */
+/* CORAZONES */
 .floating-heart{
 position:absolute;
 color:pink;
@@ -185,15 +190,28 @@ animation:floatUp 4s linear forwards;
 100%{transform:translateY(-300px);opacity:0;}
 }
 
-/* Brillo mágico */
-.magic{
-animation:flash 1.5s ease;
+/* PROPOSAL */
+.proposal{
+display:none;
+margin-top:30px;
 }
 
-@keyframes flash{
-0%{box-shadow:0 0 0px white;}
-50%{box-shadow:0 0 50px white;}
-100%{box-shadow:0 20px 40px rgba(0,0,0,0.5);}
+.proposal button{
+margin:10px;
+padding:10px 20px;
+border-radius:20px;
+border:none;
+cursor:pointer;
+font-weight:bold;
+}
+
+.yes-btn{
+background:#ff4da6;
+color:white;
+}
+
+.no-btn{
+background:#ccc;
 }
 </style>
 </head>
@@ -202,7 +220,6 @@ animation:flash 1.5s ease;
 
 <div class="stars"></div>
 
-<!-- PLAYER -->
 <div class="player">
 <div>Tatu — María Becerra 🎵</div>
 <div class="progress" onclick="seek(event)">
@@ -215,17 +232,17 @@ animation:flash 1.5s ease;
 <button onclick="togglePlay()">Play</button>
 </div>
 
-<div class="heart-container" onclick="startExperience()">
+<div class="heart-container" onclick="nextPhrase()">
 <svg class="heart-svg" viewBox="0 0 32 29.6">
 <path fill="red" d="M23.6,0c-3.4,0-6.4,2.2-7.6,5.3C14.8,2.2,11.8,0,8.4,0
 C3.8,0,0,3.8,0,8.4c0,9.3,16,21.2,16,21.2s16-11.9,16-21.2C32,3.8,28.2,0,23.6,0z"/>
 </svg>
 </div>
 
-<div id="text"></div>
+<div class="message-bubble" id="bubble"></div>
 
 <div class="reveal-btn" id="revealBtn" onclick="showPolaroid()">
-Toca para ver nuestro futuro ❤️
+Ver nuestro futuro ❤️
 </div>
 
 <div class="polaroid" id="polaroid">
@@ -234,6 +251,12 @@ Toca para ver nuestro futuro ❤️
 </div>
 
 <div class="bottom-counter" id="counter"></div>
+
+<div class="proposal" id="proposal">
+<h2>¿Quieres ser el amor de todas mis vidas? 💍❤️</h2>
+<button class="yes-btn" onclick="sayYes()">Sí 💖</button>
+<button class="no-btn" onclick="sayNo()">No 😅</button>
+</div>
 
 <audio id="music">
 <source src="music.mp3" type="audio/mpeg">
@@ -247,45 +270,28 @@ const phrases=[
 "Eres el regalito que Dios me envió 💝",
 "Un bebé con tus ojitos es lo que deseo 👶",
 "Siempre despierto y eres lo primero en lo que pienso 🥰☀️",
-"Mi esposa 👰🏻‍♀️, amiga 👩🏻 y confidente 🕵🏻‍♀️",
-"Soy completamente tuyo 💕"
+"Mi esposa, amiga y confidente 💕",
+"Soy completamente tuyo ❤️"
 ];
 
-let i=0,j=0;
-const textElement=document.getElementById("text");
+let index=0;
+const bubble=document.getElementById("bubble");
 const revealBtn=document.getElementById("revealBtn");
-const polaroid=document.getElementById("polaroid");
-const music=document.getElementById("music");
-const progressBar=document.getElementById("progressBar");
 
-/* Frases */
-function typeEffect(){
-if(i<phrases.length){
-let phrase=phrases[i];
-if(j<phrase.length){
-textElement.innerHTML+=phrase.charAt(j);
-j++;
-setTimeout(typeEffect,50);
-}else{
-setTimeout(()=>{
-textElement.innerHTML="";
-j=0;i++;
-typeEffect();
-},2000);
-}
+function nextPhrase(){
+if(index<phrases.length){
+bubble.textContent=phrases[index];
+index++;
 }else{
 document.querySelector(".heart-container").style.display="none";
-textElement.style.display="none";
 revealBtn.style.display="inline-block";
 }
 }
 
-function startExperience(){
-music.play();
-if(i===0){typeEffect();}
-}
+/* PLAYER */
+const music=document.getElementById("music");
+const progressBar=document.getElementById("progressBar");
 
-/* PLAYER MEJORADO */
 function togglePlay(){
 const btn=document.querySelector(".player button");
 if(music.paused){
@@ -298,9 +304,9 @@ btn.textContent="Play";
 }
 
 function formatTime(seconds){
-const minutes=Math.floor(seconds/60);
-const secs=Math.floor(seconds%60);
-return minutes+":"+(secs<10?"0"+secs:secs);
+const m=Math.floor(seconds/60);
+const s=Math.floor(seconds%60);
+return m+":"+(s<10?"0"+s:s);
 }
 
 music.addEventListener("loadedmetadata",()=>{
@@ -308,38 +314,35 @@ document.getElementById("duration").textContent=formatTime(music.duration);
 });
 
 music.addEventListener("timeupdate",()=>{
-let percent=(music.currentTime/music.duration)*100;
-progressBar.style.width=percent+"%";
+progressBar.style.width=(music.currentTime/music.duration)*100+"%";
 document.getElementById("currentTime").textContent=formatTime(music.currentTime);
 });
 
 function seek(e){
-const width=e.currentTarget.clientWidth;
-const clickX=e.offsetX;
-music.currentTime=(clickX/width)*music.duration;
+music.currentTime=(e.offsetX/e.currentTarget.clientWidth)*music.duration;
 }
 
-/* POLAROID + EFECTOS */
+/* POLAROID */
 function showPolaroid(){
 revealBtn.style.display="none";
-polaroid.classList.add("show-polaroid","magic");
+document.getElementById("polaroid").classList.add("show-polaroid");
 document.getElementById("counter").classList.add("show-counter");
 startHearts();
+document.getElementById("proposal").style.display="block";
 }
 
-/* Corazones flotando */
+/* CORAZONES */
 function startHearts(){
-for(let k=0;k<20;k++){
+for(let i=0;i<20;i++){
 setTimeout(()=>{
 const heart=document.createElement("div");
 heart.className="floating-heart";
 heart.innerHTML="❤️";
 heart.style.left=Math.random()*100+"vw";
 heart.style.bottom="0px";
-heart.style.fontSize=(20+Math.random()*20)+"px";
 document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),4000);
-},k*200);
+},i*200);
 }
 }
 
@@ -348,14 +351,20 @@ function updateCounter(){
 const start=new Date("2023-02-11T00:00:00");
 const now=new Date();
 const diff=now-start;
-const days=Math.floor(diff/(1000*60*60*24));
-const years=Math.floor(days/365);
-
+const years=Math.floor(diff/(1000*60*60*24)/365);
 document.getElementById("counter").innerHTML=
 "Hoy celebramos "+years+" años juntos 💍❤️";
 }
-
 updateCounter();
+
+/* PROPOSAL */
+function sayYes(){
+alert("Sabía que dirías que sí ❤️ Te amo infinitamente.");
+}
+
+function sayNo(){
+alert("¿Estás segura? 😏");
+}
 </script>
 
 </body>
