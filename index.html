@@ -39,37 +39,25 @@ body{
     to{background-position:10000px 5000px;}
 }
 
-/* Corazón */
-.heart{
-    width:120px;
-    height:120px;
-    background:red;
-    position:relative;
-    transform:rotate(-45deg);
-    animation:beat 1.2s infinite;
+/* Corazón SVG */
+.heart-container{
     cursor:pointer;
-    box-shadow:0 0 30px red;
     z-index:2;
+    animation:beat 1.2s infinite;
 }
 
-.heart:before,
-.heart:after{
-    content:"";
-    width:120px;
-    height:120px;
-    background:red;
-    border-radius:50%;
-    position:absolute;
+.heart-svg{
+    width:150px;
+    height:150px;
+    filter: drop-shadow(0 0 25px red);
 }
-
-.heart:before{top:-60px;}
-.heart:after{left:60px;}
 
 @keyframes beat{
-    0%,100%{transform:rotate(-45deg) scale(1);}
-    50%{transform:rotate(-45deg) scale(1.15);}
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.15);}
 }
 
+/* Texto animado */
 #text{
     margin-top:40px;
     font-size:20px;
@@ -78,6 +66,7 @@ body{
     z-index:2;
 }
 
+/* Fecha */
 .date{
     position:absolute;
     bottom:20px;
@@ -86,6 +75,7 @@ body{
     z-index:2;
 }
 
+/* Final */
 .final{
     display:none;
     flex-direction:column;
@@ -112,7 +102,12 @@ body{
 
 <div class="stars"></div>
 
-<div class="heart" onclick="startExperience()"></div>
+<div class="heart-container" onclick="startExperience()">
+<svg class="heart-svg" viewBox="0 0 32 29.6">
+<path fill="red" d="M23.6,0c-3.4,0-6.4,2.2-7.6,5.3C14.8,2.2,11.8,0,8.4,0
+C3.8,0,0,3.8,0,8.4c0,9.3,16,21.2,16,21.2s16-11.9,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+</svg>
+</div>
 
 <div id="text"></div>
 
@@ -161,7 +156,7 @@ function typeEffect(){
             },2000);
         }
     }else{
-        document.querySelector(".heart").style.display="none";
+        document.querySelector(".heart-container").style.display="none";
         textElement.style.display="none";
         finalSection.style.display="flex";
     }
