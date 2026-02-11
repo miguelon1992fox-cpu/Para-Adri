@@ -10,46 +10,77 @@
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-background:linear-gradient(135deg,#1a001a,#330033,#660066);
+background:linear-gradient(-45deg,#2b0033,#4d004d,#660066,#99004d);
+background-size:400% 400%;
+animation:gradientMove 12s ease infinite;
 color:white;
 text-align:center;
 overflow:hidden;
 }
 
-/* Fondo estrellas */
-.stars{
-position:fixed;
-width:100%;
-height:100%;
-background:url('https://www.transparenttextures.com/patterns/stardust.png');
-opacity:0.3;
-z-index:0;
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
 }
 
-/* Player */
+/* PLAYER */
 .player{
 position:fixed;
 top:15px;
 left:50%;
 transform:translateX(-50%);
-background:rgba(255,255,255,0.1);
-backdrop-filter:blur(10px);
-padding:10px 20px;
-border-radius:30px;
-font-size:14px;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(12px);
+padding:15px 25px;
+border-radius:25px;
 z-index:10;
+width:320px;
 }
 
-/* Contenido central */
+.song-title{
+font-size:14px;
+font-weight:600;
+}
+
+.controls{
+margin-top:8px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+}
+
+.progress{
+flex:1;
+height:6px;
+background:#555;
+border-radius:5px;
+cursor:pointer;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:pink;
+border-radius:5px;
+}
+
+button{
+background:pink;
+border:none;
+border-radius:8px;
+padding:5px 10px;
+cursor:pointer;
+font-weight:bold;
+}
+
 .container{
-position:relative;
-z-index:5;
-margin-top:120px;
+margin-top:170px;
 }
 
-/* Corazón SVG */
 .heart{
-width:130px;
+width:140px;
 cursor:pointer;
 animation:beat 1.2s infinite;
 filter:drop-shadow(0 0 20px red);
@@ -67,7 +98,6 @@ min-height:80px;
 padding:0 20px;
 }
 
-/* Botón */
 .reveal-btn{
 display:none;
 margin-top:30px;
@@ -87,74 +117,77 @@ display:none;
 position:fixed;
 top:50%;
 left:50%;
-transform:translate(-50%,-50%) rotate(-5deg);
-background:linear-gradient(145deg,#f8cdda,#fbc2eb);
-padding:15px 15px 40px 15px;
+transform:translate(-50%,-50%) rotate(-6deg);
+background:#fdf6e3;
+padding:15px 15px 45px 15px;
 border-radius:12px;
-box-shadow:0 25px 50px rgba(0,0,0,0.6);
-z-index:20;
+box-shadow:0 25px 60px rgba(0,0,0,0.6);
 animation:drop 1s ease forwards;
+z-index:20;
 }
 
 .polaroid img{
-width:230px;
-border-radius:10px;
+width:240px;
+border-radius:8px;
 display:block;
-filter:sepia(15%) contrast(105%);
+filter:sepia(20%) contrast(110%);
 }
 
 @keyframes drop{
 from{transform:translate(-50%,-200%) rotate(-15deg);opacity:0;}
-to{transform:translate(-50%,-50%) rotate(-5deg);opacity:1;}
+to{transform:translate(-50%,-50%) rotate(-6deg);opacity:1;}
 }
 
-/* Pétalos */
+/* PÉTALOS reales */
 .petal{
 position:fixed;
 top:-20px;
-width:14px;
-height:14px;
-background:pink;
-border-radius:50%;
-opacity:0.8;
+width:20px;
+height:20px;
+background:radial-gradient(circle at 30% 30%,#ffb6c1,#ff69b4);
+border-radius:60% 40% 60% 40%;
+transform:rotate(45deg);
 animation:fall linear forwards;
 z-index:15;
+opacity:0.9;
 }
 
 @keyframes fall{
-to{transform:translateY(110vh);}
+to{
+transform:translateY(110vh) rotate(360deg);
+}
 }
 
-/* Contador */
 .counter{
 position:fixed;
 bottom:20px;
 width:100%;
 font-size:14px;
-z-index:5;
 }
 </style>
 </head>
 
 <body>
 
-<div class="stars"></div>
-
 <div class="player">
-🎵 <span id="current">0:00</span> / <span id="duration">0:00</span>
+<div class="song-title">Tatu — María Becerra 🎵</div>
+<div class="controls">
+<button onclick="togglePlay()">▶</button>
+<div class="progress" onclick="seek(event)">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+<span id="time">0:00</span>
+</div>
 </div>
 
 <div class="container">
-
 <svg class="heart" onclick="startExperience()" viewBox="0 0 32 29.6">
 <path fill="red" d="M23.6,0c-3.4,0-6.4,2.2-7.6,5.3C14.8,2.2,11.8,0,8.4,0
 C3.8,0,0,3.8,0,8.4c0,9.3,16,21.2,16,21.2s16-11.9,16-21.2C32,3.8,28.2,0,23.6,0z"/>
 </svg>
 
 <div id="text"></div>
-
 <button class="reveal-btn" onclick="showPhoto()">Toca para ver nuestro futuro ❤️</button>
-
 </div>
 
 <div class="polaroid" id="photo">
@@ -181,8 +214,8 @@ let i=0,j=0;
 const textElement=document.getElementById("text");
 const revealBtn=document.querySelector(".reveal-btn");
 const music=document.getElementById("music");
+const progressBar=document.getElementById("progressBar");
 
-/* Escritura */
 function typeEffect(){
 if(i<phrases.length){
 let phrase=phrases[i];
@@ -204,44 +237,43 @@ revealBtn.style.display="inline-block";
 }
 
 function startExperience(){
-music.play().catch(()=>{});
+music.play();
 if(i===0) typeEffect();
 }
 
-/* Contador música */
-music.addEventListener("loadedmetadata",()=>{
-document.getElementById("duration").textContent=formatTime(music.duration);
-});
-
-music.addEventListener("timeupdate",()=>{
-document.getElementById("current").textContent=formatTime(music.currentTime);
-});
-
-function formatTime(t){
-let m=Math.floor(t/60);
-let s=Math.floor(t%60);
-if(s<10) s="0"+s;
-return m+":"+s;
+function togglePlay(){
+if(music.paused){music.play();}else{music.pause();}
 }
 
-/* Contador relación */
+music.addEventListener("timeupdate",()=>{
+let percent=(music.currentTime/music.duration)*100;
+progressBar.style.width=percent+"%";
+let m=Math.floor(music.currentTime/60);
+let s=Math.floor(music.currentTime%60);
+if(s<10)s="0"+s;
+document.getElementById("time").innerText=m+":"+s;
+});
+
+function seek(e){
+const width=e.currentTarget.clientWidth;
+const clickX=e.offsetX;
+music.currentTime=(clickX/width)*music.duration;
+}
+
+/* CONTADOR EXACTO */
 function updateCounter(){
-const start=new Date("2023-02-11T00:00:00");
+const start=new Date("2023-02-11T00:00:00-05:00");
 const now=new Date();
 const diff=Math.floor((now-start)/(1000*60*60*24));
 document.getElementById("counter").innerHTML=
-"❤️ 3 años juntos | "+(diff-1095)+" días más";
+"❤️ 3 años exactos hoy ❤️";
 }
 updateCounter();
 
-/* Foto + pétalos */
+/* FOTO + PETALOS */
 function showPhoto(){
 document.getElementById("photo").style.display="block";
-createPetals();
-}
-
-function createPetals(){
-for(let k=0;k<25;k++){
+for(let k=0;k<30;k++){
 let petal=document.createElement("div");
 petal.classList.add("petal");
 petal.style.left=Math.random()*100+"vw";
