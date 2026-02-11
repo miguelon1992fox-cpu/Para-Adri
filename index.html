@@ -177,7 +177,7 @@ animation:floatUp 4s linear forwards;
 100%{transform:translateY(-300px);opacity:0;}
 }
 
-/* BURBUJA NUEVA */
+/* BURBUJA */
 .love-bubble{
 position:absolute;
 background:rgba(255,255,255,0.15);
@@ -279,7 +279,9 @@ phraseIndex++;
 document.querySelector(".heart-container").style.display="none";
 revealBtn.style.display="inline-block";
 }
+}
 
+/* NUEVA FUNCIÓN MEJORADA */
 function createBubble(text){
 
 const bubble=document.createElement("div");
@@ -292,14 +294,13 @@ const rect=heart.getBoundingClientRect();
 const centerX = rect.left + rect.width/2 - 80;
 const centerY = rect.top + rect.height/2 - 20;
 
-/* Direcciones posibles */
 const directions = [
-{ x: 0, y: -80 },     // arriba
-{ x: 70, y: -60 },    // arriba derecha
-{ x: -70, y: -60 },   // arriba izquierda
-{ x: 90, y: 0 },      // derecha
-{ x: -90, y: 0 },     // izquierda
-{ x: 0, y: 70 }       // abajo
+{ x: 0, y: -80 },
+{ x: 70, y: -60 },
+{ x: -70, y: -60 },
+{ x: 90, y: 0 },
+{ x: -90, y: 0 },
+{ x: 0, y: 70 }
 ];
 
 const randomDir = directions[Math.floor(Math.random()*directions.length)];
@@ -313,7 +314,6 @@ setTimeout(()=>{
 bubble.remove();
 },2500);
 }
-
 
 /* PLAYER */
 function togglePlay(){
