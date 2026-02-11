@@ -4,18 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Adri ❤️</title>
+
 <style>
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   text-align: center;
-  background: linear-gradient(135deg, #1a001a, #330033, #660066);
-  background-size: 400% 400%;
-  animation: gradientBG 12s ease infinite;
+  overflow: hidden;
   color: white;
+  background: linear-gradient(135deg,#2b1055,#7597de);
+  background-size: 400% 400%;
+  animation: fondo 12s ease infinite;
 }
 
-@keyframes gradientBG {
+@keyframes fondo {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
@@ -24,31 +26,47 @@ body {
 #heart {
   font-size: 100px;
   cursor: pointer;
-  margin-top: 50px;
-  animation: beat 1s infinite;
+  margin-top: 120px;
+  animation: latido 1s infinite;
+  position: relative;
+  z-index: 5;
 }
 
-@keyframes beat {
-  0%, 100% { transform: scale(1); }
+@keyframes latido {
+  0%,100% { transform: scale(1); }
   50% { transform: scale(1.2); }
 }
 
+#contador {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  font-size: 18px;
+}
+
+/* REPRODUCTOR */
 #player {
   display: none;
-  margin-top: 20px;
-  background: rgba(0,0,0,0.6);
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  width: 260px;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(10px);
   padding: 15px;
-  border-radius: 12px;
-  width: 280px;
-  margin-left: auto;
-  margin-right: auto;
+  border-radius: 18px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  z-index: 1000;
+  transform: translateY(-20px);
+  opacity: 0;
+  transition: all 0.4s ease;
 }
 
 #player button {
   background: #ff4d6d;
   border: none;
   color: white;
-  padding: 8px 12px;
+  padding: 6px 12px;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -57,6 +75,7 @@ body {
   width: 100%;
 }
 
+/* FOTO */
 #fotoBtn {
   display: none;
   margin-top: 20px;
@@ -75,6 +94,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   transition: top 1.5s ease;
+  z-index: 20;
 }
 
 .polaroid {
@@ -89,42 +109,45 @@ body {
   border-radius: 10px;
 }
 
+/* PETALOS */
 .petalo {
   position: fixed;
-  width: 15px;
+  width: 14px;
   height: 20px;
-  background: radial-gradient(circle at 30% 30%, #ffb6c1, #ff69b4);
+  background: radial-gradient(circle at 30% 30%, #ffb6c1, #ff4d6d);
   border-radius: 60% 40% 60% 40%;
   transform: rotate(45deg);
-  animation: fall linear infinite;
+  animation: caer linear infinite;
   opacity: 0.9;
+  z-index: 1;
 }
 
-@keyframes fall {
-  to { transform: translateY(110vh) rotate(360deg); }
-}
-
-#counter {
-  position: fixed;
-  bottom: 20px;
-  width: 100%;
-  font-size: 16px;
+@keyframes caer {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+  }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+  }
 }
 </style>
 </head>
+
 <body>
 
 <div id="heart">❤️</div>
-<div id="counter"></div>
 
 <div id="player">
   <div><strong>Tatu — María Becerra 🎵</strong></div>
-  <button onclick="togglePlay()">Play / Pause</button><br><br>
+  <br>
+  <audio id="audio" src="music.mp3"></audio>
+  <button onclick="togglePlay()">Play / Pause</button>
+  <br><br>
   <input type="range" id="progress" value="0">
   <div><span id="current">0:00</span> / <span id="duration">0:00</span></div>
 </div>
 
-<button id="fotoBtn" onclick="showPhoto()">Ver nuestro futuro 💕</button>
+<button id="fotoBtn" onclick="mostrarFoto()">Ver nuestro futuro 💕</button>
 
 <div id="fotoContainer">
   <div class="polaroid">
@@ -133,81 +156,11 @@ body {
   </div>
 </div>
 
-<audio id="audio" src="music.mp3"></audio>
+<div id="contador">❤️ 3 años de amor del bueno ❤️</div>
 
 <script>
 const heart = document.getElementById("heart");
 const player = document.getElementById("player");
 const audio = document.getElementById("audio");
 const progress = document.getElementById("progress");
-const current = document.getElementById("current");
-const duration = document.getElementById("duration");
-const fotoBtn = document.getElementById("fotoBtn");
-const contador = document.getElementById("counter");
-
-// Mostrar player al tocar corazón
-heart.onclick = () => {
-  player.style.display = "block";
-  audio.play().catch(()=>{});
-  heart.style.display = "none";
-}
-
-// Play/Pause
-function togglePlay(){
-  if(audio.paused) audio.play();
-  else audio.pause();
-}
-
-// Actualizar barra y tiempo
-audio.onloadedmetadata = () => {
-  duration.textContent = formatTime(audio.duration);
-  progress.max = audio.duration;
-}
-
-audio.ontimeupdate = () => {
-  progress.value = audio.currentTime;
-  current.textContent = formatTime(audio.currentTime);
-}
-
-progress.oninput = () => {
-  audio.currentTime = progress.value;
-}
-
-function formatTime(time) {
-  let m = Math.floor(time/60);
-  let s = Math.floor(time%60);
-  if(s<10) s = "0"+s;
-  return m+":"+s;
-}
-
-// Mostrar botón foto cuando audio termina
-audio.onended = () => {
-  fotoBtn.style.display = "block";
-}
-
-// Mostrar foto con efecto
-function showPhoto() {
-  const cont = document.getElementById("fotoContainer");
-  cont.style.display = "block";
-  setTimeout(()=> cont.style.top = "150px", 100);
-  createPetals();
-}
-
-// Pétalos
-function createPetals(){
-  for(let i=0;i<25;i++){
-    let p = document.createElement("div");
-    p.classList.add("petalo");
-    p.style.left = Math.random()*100 + "vw";
-    p.style.animationDuration = (4+Math.random()*4) + "s";
-    document.body.appendChild(p);
-    setTimeout(()=>p.remove(),8000);
-  }
-}
-
-// Contador exacto 3 años
-contador.textContent = "❤️ 3 años de amor del bueno ❤️";
-</script>
-
-</body>
-</html>
+con
