@@ -4,254 +4,326 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Adri ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
 body{
 margin:0;
-padding:0;
-background:linear-gradient(180deg,#3b003b,#6a006a);
-overflow:hidden;
-font-family:'Segoe UI',sans-serif;
-text-align:center;
+font-family:'Poppins', sans-serif;
+background:linear-gradient(135deg,#1a001a,#330033,#660066);
+min-height:100vh;
+overflow-x:hidden;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
 color:white;
+text-align:center;
+}
+
+/* Fondo estrellas */
+.stars{
+position:absolute;
+width:100%;
+height:100%;
+background:url('https://www.transparenttextures.com/patterns/stardust.png');
+animation:moveStars 60s linear infinite;
+opacity:0.4;
+z-index:-1;
+}
+
+@keyframes moveStars{
+from{background-position:0 0;}
+to{background-position:10000px 5000px;}
 }
 
 /* PLAYER */
 .player{
 position:fixed;
-top:20px;
-left:50%;
-transform:translateX(-50%);
-background:#4b003f;
-padding:20px;
-border-radius:20px;
-box-shadow:0 0 30px #ff66c4;
-z-index:10;
-width:320px;
+top:15px;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(12px);
+padding:15px 25px;
+border-radius:25px;
+box-shadow:0 0 30px pink;
+font-size:14px;
+width:280px;
 }
 
 .progress{
 width:100%;
-height:8px;
-background:#777;
-border-radius:10px;
-margin:10px 0;
-overflow:hidden;
+height:6px;
+background:#555;
+border-radius:5px;
+margin:6px 0;
 cursor:pointer;
 }
 
 .progress-bar{
 height:100%;
 width:0%;
-background:#ff66c4;
+background:linear-gradient(90deg,pink,#ff66cc);
+border-radius:5px;
 }
 
 .time{
 display:flex;
 justify-content:space-between;
 font-size:12px;
+opacity:0.8;
 }
 
-/* CORAZÓN */
-.heart{
-font-size:120px;
-cursor:pointer;
-margin-top:250px;
-animation:latido 1s infinite;
-}
-
-@keyframes latido{
-0%{transform:scale(1);}
-50%{transform:scale(1.2);}
-100%{transform:scale(1);}
-}
-
-/* BURBUJAS */
-.bubble{
-position:absolute;
-background:rgba(255,255,255,0.15);
-padding:15px 25px;
-border-radius:30px;
-backdrop-filter:blur(10px);
-font-size:18px;
-animation:flotar 3s forwards;
-}
-
-@keyframes flotar{
-0%{opacity:0;transform:translateY(20px);}
-100%{opacity:1;transform:translateY(-60px);}
-}
-
-/* BOTÓN FUTURO */
-.futureBtn{
-display:none;
-margin-top:40px;
-padding:12px 25px;
+.player button{
+margin-top:8px;
+background:pink;
 border:none;
-border-radius:25px;
-font-size:18px;
+padding:6px 14px;
+border-radius:10px;
 cursor:pointer;
-background:#ff4da6;
-color:white;
+font-weight:bold;
 }
 
-/* FOTO */
+/* Corazón */
+.heart-container{
+cursor:pointer;
+animation:beat 1.2s infinite;
+margin-top:40px;
+}
+
+.heart-svg{
+width:140px;
+filter:drop-shadow(0 0 20px red);
+}
+
+@keyframes beat{
+0%,100%{transform:scale(1);}
+50%{transform:scale(1.15);}
+}
+
+/* Botón final */
+.reveal-btn{
+display:none;
+margin-top:30px;
+background:white;
+color:#660066;
+padding:12px 25px;
+border-radius:30px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* POLAROID */
 .polaroid{
 position:absolute;
-top:160px;
+top:50%;
 left:50%;
-transform:translateX(-50%) rotate(-5deg);
-background:#e0cbb4;
-padding:20px 20px 40px 20px;
-box-shadow:0 15px 30px rgba(0,0,0,0.6);
-display:none;
+transform:translate(-50%, -200%) rotate(-8deg);
+opacity:0;
+background:white;
+padding:10px;
+box-shadow:0 20px 40px rgba(0,0,0,0.5);
+transition:all 1.5s ease;
 z-index:5;
 }
 
 .polaroid img{
-width:300px;
-height:350px;
-object-fit:cover;
+width:200px;
+max-width:70vw;
+height:auto;
+display:block;
 }
 
-.polaroid p{
-margin-top:15px;
-color:#5a4033;
+.polaroid span{
+display:block;
+margin-top:8px;
+color:#333;
 font-weight:bold;
 }
 
-/* PROPUESTA */
-.propuesta{
-display:none;
+.show-polaroid{
+transform:translate(-50%, -40%) rotate(-8deg);
+opacity:1;
+animation:swing 3s ease-in-out infinite;
+}
+
+@keyframes swing{
+0%,100%{transform:translate(-50%, -40%) rotate(-8deg);}
+50%{transform:translate(-50%, -40%) rotate(4deg);}
+}
+
+/* CONTADOR ABAJO */
+.bottom-counter{
 position:absolute;
-top:70%;
-left:50%;
-transform:translateX(-50%);
-background:rgba(0,0,0,0.6);
-padding:30px;
-border-radius:20px;
-z-index:6;
+bottom:40px;
+font-size:18px;
+opacity:0;
+transition:opacity 2s ease;
+}
+
+.show-counter{
+opacity:1;
+}
+
+/* CORAZONES FLOTANDO */
+.floating-heart{
+position:absolute;
+color:pink;
+font-size:20px;
+animation:floatUp 4s linear forwards;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-300px);opacity:0;}
+}
+
+/* BURBUJA NUEVA */
+.love-bubble{
+position:absolute;
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(10px);
+padding:12px 20px;
+border-radius:25px;
+font-size:16px;
+white-space:nowrap;
+animation:popFloat 2.5s ease forwards;
+box-shadow:0 0 15px rgba(255,105,180,0.6);
+}
+
+@keyframes popFloat{
+0%{opacity:0;transform:translateY(10px) scale(0.8);}
+20%{opacity:1;transform:translateY(0) scale(1);}
+100%{opacity:0;transform:translateY(-40px) scale(0.95);}
+}
+
+/* Brillo mágico */
+.magic{
+animation:flash 1.5s ease;
+}
+
+@keyframes flash{
+0%{box-shadow:0 0 0px white;}
+50%{box-shadow:0 0 50px white;}
+100%{box-shadow:0 20px 40px rgba(0,0,0,0.5);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="player">
-<h3>Tatu — María Becerra 🎵</h3>
+<div class="stars"></div>
 
+<div class="player">
+<div>Tatu — María Becerra 🎵</div>
 <div class="progress" onclick="seek(event)">
 <div class="progress-bar" id="progressBar"></div>
 </div>
-
 <div class="time">
-<span id="current">0:00</span>
+<span id="currentTime">0:00</span>
 <span id="duration">0:00</span>
 </div>
-
-<button onclick="toggleMusic()">Play / Pause</button>
-<audio id="music" src="music.mp3"></audio>
+<button onclick="togglePlay()">Play</button>
 </div>
 
-<div class="heart" id="heart">❤️</div>
+<div class="heart-container" onclick="startExperience()">
+<svg class="heart-svg" viewBox="0 0 32 29.6">
+<path fill="red" d="M23.6,0c-3.4,0-6.4,2.2-7.6,5.3C14.8,2.2,11.8,0,8.4,0
+C3.8,0,0,3.8,0,8.4c0,9.3,16,21.2,16,21.2s16-11.9,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+</svg>
+</div>
 
-<button class="futureBtn" id="futureBtn" onclick="mostrarFoto()">
-¿Quieres ver nuestro futuro? 💫
-</button>
+<div class="reveal-btn" id="revealBtn" onclick="showPolaroid()">
+Toca para ver nuestro futuro ❤️
+</div>
 
-<div class="polaroid" id="photo">
+<div class="polaroid" id="polaroid">
 <img src="foto.jpg">
-<p>Pronto estaremos juntos, mi vida ❤️</p>
+<span>Pronto estaremos juntos, mi vida ❤️</span>
 </div>
 
-<div class="propuesta" id="propuesta">
-<h2>¿Quieres ser el amor de todas mis vidas? 💍❤️</h2>
-<button onclick="alert('Sabía que dirías que sí ❤️')">Sí</button>
-<button onclick="alert('¿Segura? 😏')">No</button>
-</div>
+<div class="bottom-counter" id="counter"></div>
+
+<audio id="music" src="music.mp3"></audio>
 
 <script>
 
-const frases=[
-"Eres mi lugar favorito ❤️",
-"Contigo quiero todo 💕",
-"Gracias por estos 3 años 💖",
-"Eres mi sueño hecho realidad ✨",
-"Eres mi persona especial 💞"
+const phrases=[
+"Te amo infinito 🐢❤️",
+"Eres mi motor 💕",
+"Te quiero para siempre 🏡",
+"Eres mi regalo 💝",
+"Sueño con tus ojitos 👶",
+"Eres mi primer pensamiento 🥰",
+"Mi esposa y amiga 💍",
+"Soy completamente tuyo 💕"
 ];
 
-let index=0;
-let musicStarted=false;
+let phraseIndex=0;
 
-const heart=document.getElementById("heart");
-const futureBtn=document.getElementById("futureBtn");
-const photo=document.getElementById("photo");
-const propuesta=document.getElementById("propuesta");
+const revealBtn=document.getElementById("revealBtn");
+const polaroid=document.getElementById("polaroid");
 const music=document.getElementById("music");
 const progressBar=document.getElementById("progressBar");
-const current=document.getElementById("current");
-const duration=document.getElementById("duration");
 
-/* CLICK CORAZÓN */
-heart.addEventListener("click",()=>{
+/* FRASES POR CLICK */
+function startExperience(){
 
-/* Inicia música en el primer click */
-if(!musicStarted){
 music.play();
-musicStarted=true;
-}
 
-if(index<frases.length){
-crearBurbuja(frases[index]);
-index++;
+if(phraseIndex < phrases.length){
+
+createBubble(phrases[phraseIndex]);
+phraseIndex++;
+
 }else{
-heart.style.display="none";
-futureBtn.style.display="inline-block";
+document.querySelector(".heart-container").style.display="none";
+revealBtn.style.display="inline-block";
+}
 }
 
-});
+function createBubble(text){
 
-/* BURBUJA */
-function crearBurbuja(texto){
 const bubble=document.createElement("div");
-bubble.className="bubble";
-bubble.innerText=texto;
+bubble.className="love-bubble";
+bubble.innerHTML=text;
 
-let rect=heart.getBoundingClientRect();
-bubble.style.left=(rect.left + Math.random()*200 -100)+"px";
-bubble.style.top=(rect.top-20)+"px";
+const heart=document.querySelector(".heart-container");
+const rect=heart.getBoundingClientRect();
+
+bubble.style.left=(rect.left + rect.width/2 - 80 + (Math.random()*40-20))+"px";
+bubble.style.top=(rect.top - 60 + (Math.random()*20-10))+"px";
 
 document.body.appendChild(bubble);
-setTimeout(()=>bubble.remove(),3000);
+
+setTimeout(()=>bubble.remove(),2500);
 }
 
-/* FOTO */
-function mostrarFoto(){
-futureBtn.style.display="none";
-photo.style.display="block";
-
-setTimeout(()=>{
-propuesta.style.display="block";
-},3000);
-}
-
-/* MUSIC */
-function toggleMusic(){
+/* PLAYER */
+function togglePlay(){
+const btn=document.querySelector(".player button");
 if(music.paused){
 music.play();
+btn.textContent="Pause";
 }else{
 music.pause();
+btn.textContent="Play";
 }
+}
+
+function formatTime(seconds){
+const minutes=Math.floor(seconds/60);
+const secs=Math.floor(seconds%60);
+return minutes+":"+(secs<10?"0"+secs:secs);
 }
 
 music.addEventListener("loadedmetadata",()=>{
-duration.textContent=formatTime(music.duration);
+document.getElementById("duration").textContent=formatTime(music.duration);
 });
 
 music.addEventListener("timeupdate",()=>{
 let percent=(music.currentTime/music.duration)*100;
 progressBar.style.width=percent+"%";
-current.textContent=formatTime(music.currentTime);
+document.getElementById("currentTime").textContent=formatTime(music.currentTime);
 });
 
 function seek(e){
@@ -260,12 +332,42 @@ const clickX=e.offsetX;
 music.currentTime=(clickX/width)*music.duration;
 }
 
-function formatTime(time){
-let min=Math.floor(time/60);
-let sec=Math.floor(time%60);
-if(sec<10) sec="0"+sec;
-return min+":"+sec;
+/* POLAROID */
+function showPolaroid(){
+revealBtn.style.display="none";
+polaroid.classList.add("show-polaroid","magic");
+document.getElementById("counter").classList.add("show-counter");
+startHearts();
 }
+
+/* Corazones flotando */
+function startHearts(){
+for(let k=0;k<20;k++){
+setTimeout(()=>{
+const heart=document.createElement("div");
+heart.className="floating-heart";
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+heart.style.bottom="0px";
+heart.style.fontSize=(20+Math.random()*20)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),4000);
+},k*200);
+}
+}
+
+/* CONTADOR */
+function updateCounter(){
+const start=new Date("2023-02-11T00:00:00");
+const now=new Date();
+const diff=now-start;
+const days=Math.floor(diff/(1000*60*60*24));
+const years=Math.floor(days/365);
+document.getElementById("counter").innerHTML=
+"Hoy celebramos "+years+" años juntos 💍❤️";
+}
+
+updateCounter();
 
 </script>
 
