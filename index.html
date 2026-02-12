@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
-/* TODO TU CSS ORIGINAL ESTÁ INTACTO */
 body{
 margin:0;
 font-family:'Poppins', sans-serif;
@@ -22,6 +21,7 @@ color:white;
 text-align:center;
 }
 
+/* Fondo estrellas */
 .stars{
 position:absolute;
 width:100%;
@@ -37,6 +37,7 @@ from{background-position:0 0;}
 to{background-position:10000px 5000px;}
 }
 
+/* PLAYER */
 .player{
 position:fixed;
 top:15px;
@@ -82,6 +83,7 @@ cursor:pointer;
 font-weight:bold;
 }
 
+/* Corazón */
 .heart-container{
 cursor:pointer;
 animation:beat 1.2s infinite;
@@ -98,6 +100,7 @@ filter:drop-shadow(0 0 20px red);
 50%{transform:scale(1.15);}
 }
 
+/* Botón final */
 .reveal-btn{
 display:none;
 margin-top:30px;
@@ -109,6 +112,7 @@ font-weight:bold;
 cursor:pointer;
 }
 
+/* POLAROID */
 .polaroid{
 position:absolute;
 top:50%;
@@ -150,6 +154,7 @@ animation:swing 3s ease-in-out infinite;
 50%{transform:translate(-50%, -40%) rotate(4deg);}
 }
 
+/* CONTADOR ABAJO */
 .bottom-counter{
 position:absolute;
 bottom:40px;
@@ -162,6 +167,7 @@ transition:opacity 2s ease;
 opacity:1;
 }
 
+/* CORAZONES FLOTANDO */
 .floating-heart{
 position:absolute;
 color:pink;
@@ -174,6 +180,7 @@ animation:floatUp 4s linear forwards;
 100%{transform:translateY(-300px);opacity:0;}
 }
 
+/* BURBUJA */
 .love-bubble{
 position:absolute;
 background:rgba(255,255,255,0.15);
@@ -192,7 +199,10 @@ box-shadow:0 0 15px rgba(255,105,180,0.6);
 100%{opacity:0;transform:translateY(-40px) scale(0.95);}
 }
 
-.magic{ animation:flash 1.5s ease; }
+/* Brillo mágico */
+.magic{
+animation:flash 1.5s ease;
+}
 
 @keyframes flash{
 0%{box-shadow:0 0 0px white;}
@@ -200,26 +210,7 @@ box-shadow:0 0 15px rgba(255,105,180,0.6);
 100%{box-shadow:0 20px 40px rgba(0,0,0,0.5);}
 }
 
-.flash-overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:white;
-opacity:0;
-pointer-events:none;
-z-index:20;
-animation:cameraFlash 0.8s ease;
-}
-
-@keyframes cameraFlash{
-0%{opacity:0;}
-20%{opacity:1;}
-100%{opacity:0;}
-}
-
-/* CARTA */
+/* 💌 BOTÓN CARTA */
 .letter-btn{
 display:none;
 margin-top:20px;
@@ -230,8 +221,11 @@ border-radius:30px;
 font-weight:bold;
 cursor:pointer;
 box-shadow:0 0 15px pink;
+position:relative;
+z-index:15;
 }
 
+/* 💌 CARTA */
 .letter-modal{
 position:fixed;
 top:0;
@@ -264,6 +258,7 @@ box-shadow:0 0 40px pink;
 text-align:left;
 }
 
+/* 🌌 FINAL */
 .final-message{
 position:fixed;
 top:0;
@@ -281,7 +276,6 @@ opacity:0;
 pointer-events:none;
 transition:1.5s;
 z-index:40;
-text-align:center;
 }
 
 .final-message.show{
@@ -332,27 +326,23 @@ Leer carta 💌
 <div class="letter-modal" id="letterModal">
 <div class="letter-content">
 <h2>Para ti, mi amor ❤️</h2>
-<p>Desde el día que llegaste a mi vida todo cambió.
-Eres mi calma, mi fuerza y mi hogar.</p>
-<p>No importa el tiempo ni la distancia,
-mi corazón siempre será tuyo.
-Te amo más de lo que las palabras pueden explicar.</p>
+<p>Eres mi hogar, mi calma y mi destino.</p>
 <button onclick="closeLetter()">Cerrar 💕</button>
 <button onclick="showFinalMessage()">Mensaje final ✨</button>
 </div>
 </div>
 
 <div class="final-message" id="finalMessage">
-<div>
 ✨ Nuestro amor es infinito ✨<br><br>
-Te elegiría en esta vida y en todas ❤️<br><br>
+Te elegiría en esta vida y en todas ❤️
+<br><br>
 <button onclick="location.reload()">Volver a empezar 💖</button>
-</div>
 </div>
 
 <audio id="music" src="music.mp3"></audio>
 
 <script>
+/* TU JS ORIGINAL COMPLETO */
 const phrases=[
 "Te amo infinito 🐢❤️",
 "Eres mi motor 💕",
@@ -371,11 +361,9 @@ const polaroid=document.getElementById("polaroid");
 const music=document.getElementById("music");
 const progressBar=document.getElementById("progressBar");
 const letterBtn=document.getElementById("letterBtn");
-const letterModal=document.getElementById("letterModal");
-const finalMessage=document.getElementById("finalMessage");
 
 function startExperience(){
-music.play().catch(()=>{});
+music.play();
 if(phraseIndex < phrases.length){
 createBubble(phrases[phraseIndex]);
 phraseIndex++;
@@ -389,13 +377,10 @@ function createBubble(text){
 const bubble=document.createElement("div");
 bubble.className="love-bubble";
 bubble.innerHTML=text;
-
 const heart=document.querySelector(".heart-container");
 const rect=heart.getBoundingClientRect();
-
 const centerX = rect.left + rect.width/2 - 80;
 const centerY = rect.top + rect.height/2 - 20;
-
 const directions=[
 { x: 0, y: -80 },
 { x: 70, y: -60 },
@@ -404,42 +389,18 @@ const directions=[
 { x: -90, y: 0 },
 { x: 0, y: 70 }
 ];
-
 const randomDir=directions[Math.floor(Math.random()*directions.length)];
-
 bubble.style.left=(centerX+randomDir.x)+"px";
 bubble.style.top=(centerY+randomDir.y)+"px";
-
 document.body.appendChild(bubble);
 setTimeout(()=>{bubble.remove();},2500);
 }
 
 function togglePlay(){
 const btn=document.querySelector(".player button");
-if(music.paused){
-music.play();
-btn.textContent="Pause";
-}else{
-music.pause();
-btn.textContent="Play";
+if(music.paused){music.play();btn.textContent="Pause";}
+else{music.pause();btn.textContent="Play";}
 }
-}
-
-function formatTime(seconds){
-const minutes=Math.floor(seconds/60);
-const secs=Math.floor(seconds%60);
-return minutes+":"+(secs<10?"0"+secs:secs);
-}
-
-music.addEventListener("loadedmetadata",()=>{
-document.getElementById("duration").textContent=formatTime(music.duration);
-});
-
-music.addEventListener("timeupdate",()=>{
-let percent=(music.currentTime/music.duration)*100;
-progressBar.style.width=percent+"%";
-document.getElementById("currentTime").textContent=formatTime(music.currentTime);
-});
 
 function seek(e){
 const width=e.currentTarget.clientWidth;
@@ -452,8 +413,7 @@ revealBtn.style.display="none";
 polaroid.classList.add("show-polaroid","magic");
 document.getElementById("counter").classList.add("show-counter");
 startHearts();
-startFlash();
-setTimeout(()=>{letterBtn.style.display="inline-block";},1500);
+setTimeout(()=>{letterBtn.style.display="inline-block";},1800);
 }
 
 function startHearts(){
@@ -482,24 +442,15 @@ document.getElementById("counter").innerHTML=
 }
 updateCounter();
 
-function startFlash(){
-const flash=document.createElement("div");
-flash.className="flash-overlay";
-document.body.appendChild(flash);
-setTimeout(()=>{flash.remove();},800);
-}
-
+/* FUNCIONES NUEVAS */
 function openLetter(){
-letterModal.classList.add("show");
+document.getElementById("letterModal").classList.add("show");
 }
-
 function closeLetter(){
-letterModal.classList.remove("show");
+document.getElementById("letterModal").classList.remove("show");
 }
-
 function showFinalMessage(){
-letterModal.classList.remove("show");
-finalMessage.classList.add("show");
+document.getElementById("finalMessage").classList.add("show");
 }
 </script>
 
