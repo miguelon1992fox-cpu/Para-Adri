@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
-/* TODO TU CSS EXACTAMENTE IGUAL — NO SE MODIFICÓ NADA */
 body{
 margin:0;
 font-family:'Poppins', sans-serif;
@@ -32,7 +31,6 @@ animation:moveStars 60s linear infinite;
 opacity:0.4;
 z-index:-1;
 }
-
 @keyframes moveStars{
 from{background-position:0 0;}
 to{background-position:10000px 5000px;}
@@ -50,7 +48,6 @@ box-shadow:0 0 30px pink;
 font-size:14px;
 width:280px;
 }
-
 .progress{
 width:100%;
 height:6px;
@@ -59,21 +56,18 @@ border-radius:5px;
 margin:6px 0;
 cursor:pointer;
 }
-
 .progress-bar{
 height:100%;
 width:0%;
 background:linear-gradient(90deg,pink,#ff66cc);
 border-radius:5px;
 }
-
 .time{
 display:flex;
 justify-content:space-between;
 font-size:12px;
 opacity:0.8;
 }
-
 .player button{
 margin-top:8px;
 background:pink;
@@ -90,18 +84,16 @@ cursor:pointer;
 animation:beat 1.2s infinite;
 margin-top:40px;
 }
-
 .heart-svg{
 width:140px;
 filter:drop-shadow(0 0 20px red);
 }
-
 @keyframes beat{
 0%,100%{transform:scale(1);}
 50%{transform:scale(1.15);}
 }
 
-/* Botón final */
+/* Botón futuro */
 .reveal-btn{
 display:none;
 margin-top:30px;
@@ -113,7 +105,7 @@ font-weight:bold;
 cursor:pointer;
 }
 
-/* POLAROID */
+/* Polaroid */
 .polaroid{
 position:absolute;
 top:50%;
@@ -129,33 +121,28 @@ transition:all 1.5s ease;
 z-index:5;
 border-radius:8px;
 }
-
 .polaroid img{
 width:200px;
 max-width:70vw;
-height:auto;
 display:block;
 }
-
 .polaroid span{
 display:block;
 margin-top:8px;
 color:#333;
 font-weight:bold;
 }
-
 .show-polaroid{
 transform:translate(-50%, -40%) rotate(-8deg);
 opacity:1;
 animation:swing 3s ease-in-out infinite;
 }
-
 @keyframes swing{
 0%,100%{transform:translate(-50%, -40%) rotate(-8deg);}
 50%{transform:translate(-50%, -40%) rotate(4deg);}
 }
 
-/* CONTADOR ABAJO */
+/* Contador */
 .bottom-counter{
 position:absolute;
 bottom:40px;
@@ -163,25 +150,21 @@ font-size:18px;
 opacity:0;
 transition:opacity 2s ease;
 }
+.show-counter{opacity:1;}
 
-.show-counter{
-opacity:1;
-}
-
-/* CORAZONES FLOTANDO */
+/* Corazones flotando */
 .floating-heart{
 position:absolute;
 color:pink;
 font-size:20px;
 animation:floatUp 4s linear forwards;
 }
-
 @keyframes floatUp{
 0%{transform:translateY(0);opacity:1;}
 100%{transform:translateY(-300px);opacity:0;}
 }
 
-/* BURBUJA */
+/* Burbuja */
 .love-bubble{
 position:absolute;
 background:rgba(255,255,255,0.15);
@@ -193,14 +176,13 @@ white-space:nowrap;
 animation:popFloat 2.5s ease forwards;
 box-shadow:0 0 15px rgba(255,105,180,0.6);
 }
-
 @keyframes popFloat{
 0%{opacity:0;transform:translateY(10px) scale(0.8);}
-20%{opacity:1;transform:translateY(0) scale(1);}
+20%{opacity:1;}
 100%{opacity:0;transform:translateY(-40px) scale(0.95);}
 }
 
-/* CARTA Y FINAL EXACTAMENTE IGUAL */
+/* Carta */
 .letter-btn{
 display:none;
 margin-top:20px;
@@ -211,10 +193,8 @@ border-radius:30px;
 font-weight:bold;
 cursor:pointer;
 box-shadow:0 0 15px pink;
-position:relative;
 z-index:15;
 }
-
 .letter-modal{
 position:fixed;
 top:0;
@@ -230,12 +210,10 @@ pointer-events:none;
 transition:0.5s;
 z-index:30;
 }
-
 .letter-modal.show{
 opacity:1;
 pointer-events:auto;
 }
-
 .letter-content{
 background:#fff0f5;
 color:#660033;
@@ -247,6 +225,7 @@ box-shadow:0 0 40px pink;
 text-align:left;
 }
 
+/* Final */
 .final-message{
 position:fixed;
 top:0;
@@ -265,7 +244,6 @@ pointer-events:none;
 transition:1.5s;
 z-index:40;
 }
-
 .final-message.show{
 opacity:1;
 pointer-events:auto;
@@ -275,16 +253,61 @@ pointer-events:auto;
 
 <body>
 
-<!-- TODO TU HTML ORIGINAL EXACTAMENTE IGUAL -->
-<!-- (no fue alterado) -->
+<div class="stars"></div>
+
+<div class="player">
+<div>Tatu — María Becerra 🎵</div>
+<div class="progress" onclick="seek(event)">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+<div class="time">
+<span id="currentTime">0:00</span>
+<span id="duration">0:00</span>
+</div>
+<button onclick="togglePlay()">Play</button>
+</div>
+
+<div class="heart-container" onclick="startExperience()">
+<svg class="heart-svg" viewBox="0 0 32 29.6">
+<path fill="red" d="M23.6,0c-3.4,0-6.4,2.2-7.6,5.3C14.8,2.2,11.8,0,8.4,0
+C3.8,0,0,3.8,0,8.4c0,9.3,16,21.2,16,21.2s16-11.9,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+</svg>
+</div>
+
+<div class="reveal-btn" id="revealBtn" onclick="showPolaroid()">
+Toca para ver nuestro futuro ❤️
+</div>
+
+<div class="polaroid" id="polaroid">
+<img src="foto.jpg">
+<span>Pronto estaremos juntos, mi vida ❤️</span>
+</div>
+
+<div class="bottom-counter" id="counter"></div>
+
+<div class="letter-btn" id="letterBtn" onclick="openLetter()">
+Leer carta 💌
+</div>
+
+<div class="letter-modal" id="letterModal">
+<div class="letter-content">
+<h2>Para ti, mi amor ❤️</h2>
+<p>Eres mi hogar, mi calma y mi destino.</p>
+<button onclick="closeLetter()">Cerrar 💕</button>
+<button onclick="showFinalMessage()">Mensaje final ✨</button>
+</div>
+</div>
+
+<div class="final-message" id="finalMessage">
+✨ Nuestro amor es infinito ✨<br><br>
+Te elegiría en esta vida y en todas ❤️
+<br><br>
+<button onclick="location.reload()">Volver a empezar 💖</button>
+</div>
 
 <audio id="music" src="music.mp3"></audio>
 
 <script>
-/* ========================= */
-/* TU JS ORIGINAL COMPLETO  */
-/* ========================= */
-
 const phrases=[
 "Te amo infinito 🐢❤️",
 "Eres mi motor 💕",
@@ -297,7 +320,6 @@ const phrases=[
 ];
 
 let phraseIndex=0;
-
 const revealBtn=document.getElementById("revealBtn");
 const polaroid=document.getElementById("polaroid");
 const music=document.getElementById("music");
@@ -321,8 +343,8 @@ bubble.className="love-bubble";
 bubble.innerHTML=text;
 const heart=document.querySelector(".heart-container");
 const rect=heart.getBoundingClientRect();
-const centerX = rect.left + rect.width/2 - 80;
-const centerY = rect.top + rect.height/2 - 20;
+const centerX=rect.left+rect.width/2-80;
+const centerY=rect.top+rect.height/2-20;
 const directions=[
 { x: 0, y: -80 },
 { x: 70, y: -60 },
@@ -335,7 +357,7 @@ const randomDir=directions[Math.floor(Math.random()*directions.length)];
 bubble.style.left=(centerX+randomDir.x)+"px";
 bubble.style.top=(centerY+randomDir.y)+"px";
 document.body.appendChild(bubble);
-setTimeout(()=>{bubble.remove();},2500);
+setTimeout(()=>bubble.remove(),2500);
 }
 
 function togglePlay(){
@@ -343,6 +365,23 @@ const btn=document.querySelector(".player button");
 if(music.paused){music.play();btn.textContent="Pause";}
 else{music.pause();btn.textContent="Play";}
 }
+
+function formatTime(seconds){
+const minutes=Math.floor(seconds/60);
+const secs=Math.floor(seconds%60);
+return minutes+":"+(secs<10?"0"+secs:secs);
+}
+
+music.addEventListener("loadedmetadata",()=>{
+document.getElementById("duration").textContent=formatTime(music.duration);
+});
+
+music.addEventListener("timeupdate",()=>{
+if(music.duration){
+progressBar.style.width=(music.currentTime/music.duration)*100+"%";
+document.getElementById("currentTime").textContent=formatTime(music.currentTime);
+}
+});
 
 function seek(e){
 const width=e.currentTarget.clientWidth;
@@ -352,10 +391,10 @@ music.currentTime=(clickX/width)*music.duration;
 
 function showPolaroid(){
 revealBtn.style.display="none";
-polaroid.classList.add("show-polaroid","magic");
+polaroid.classList.add("show-polaroid");
 document.getElementById("counter").classList.add("show-counter");
 startHearts();
-setTimeout(()=>{letterBtn.style.display="inline-block";},1800);
+setTimeout(()=>{letterBtn.style.display="inline-block";},1500);
 }
 
 function startHearts(){
@@ -377,36 +416,12 @@ function updateCounter(){
 const start=new Date("2023-02-11T00:00:00");
 const now=new Date();
 const diff=now-start;
-const days=Math.floor(diff/(1000*60*60*24));
-const years=Math.floor(days/365);
+const years=Math.floor(diff/(1000*60*60*24)/365);
 document.getElementById("counter").innerHTML=
 "Hoy celebramos "+years+" años juntos 💍❤️";
 }
 updateCounter();
 
-/* ========================= */
-/* 🔥 LO QUE FALTABA AGREGAR */
-/* ========================= */
-
-function formatTime(seconds){
-const minutes=Math.floor(seconds/60);
-const secs=Math.floor(seconds%60);
-return minutes+":"+(secs<10?"0"+secs:secs);
-}
-
-music.addEventListener("loadedmetadata",()=>{
-document.getElementById("duration").textContent=formatTime(music.duration);
-});
-
-music.addEventListener("timeupdate",()=>{
-if(music.duration){
-let percent=(music.currentTime/music.duration)*100;
-progressBar.style.width=percent+"%";
-document.getElementById("currentTime").textContent=formatTime(music.currentTime);
-}
-});
-
-/* FUNCIONES CARTA */
 function openLetter(){
 document.getElementById("letterModal").classList.add("show");
 }
